@@ -19,7 +19,7 @@ const BOUNDS = {
 
 type EntityType = 'player' | 'dog' | 'donkey' | 'goat' | 'rabbit';
 type SceneryType = 'tree' | 'bush' | 'fence_h' | 'fence_v' | 'fence_c' | 'gate'; // fence horizontal, vertical, corner
-type InteractableType = 'greenHouse' | 'redBarn' | 'blueCoop' | 'mailbox' | 'board' | 'silo';
+type InteractableType = 'farmHouse' | 'redBarn' | 'projectGreenhouse' | 'mailbox' | 'board' | 'silo';
 
 interface Entity {
   id: string;
@@ -49,6 +49,7 @@ interface Interactable {
   width: number;
   height: number;
   label: string;
+  interactive?: boolean; // Defaults to true
 }
 
 interface Pond {
@@ -250,40 +251,33 @@ const Assets = {
     ctx.fillStyle = '#2196f3'; // Pants
     ctx.fillRect(11, 24, 4, 8);
     ctx.fillRect(17, 24, 4, 8);
+    
+    // Watering Can
+    ctx.fillStyle = '#90a4ae'; // Metal Grey
+    ctx.fillRect(0, 18, 8, 6); // Can Body
+    ctx.fillRect(1, 16, 2, 4); // Handle
+    ctx.fillRect(8, 16, 4, 2); // Spout
   }),
   dog: createSprite(48, 32, (ctx) => {
     // Bernese Mountain Dog: Enhanced Profile
-    // Body
     ctx.fillStyle = '#111'; // Jet Black
     ctx.fillRect(8, 10, 28, 14); 
-    
-    // Head
     ctx.fillStyle = '#111';
     ctx.fillRect(28, 4, 12, 12);
-    
-    // Snout/White blaze
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(36, 10, 6, 6); // Snout tip
-    ctx.fillRect(32, 4, 4, 10); // Blaze up forehead
-    
-    // Ears
-    ctx.fillStyle = '#111'; // Black ears
+    ctx.fillRect(36, 10, 6, 6); 
+    ctx.fillRect(32, 4, 4, 10); 
+    ctx.fillStyle = '#111'; 
     ctx.fillRect(28, 4, 6, 6); 
-    
-    // Chest
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(8, 14, 10, 10);
-    
-    // Legs (Rust)
-    ctx.fillStyle = '#8d6e63'; // Brown/Rust
-    ctx.fillRect(8, 24, 6, 8); // Back Leg
-    ctx.fillRect(30, 24, 6, 8); // Front Leg
-    
-    // Tail
+    ctx.fillStyle = '#8d6e63';
+    ctx.fillRect(8, 24, 6, 8); 
+    ctx.fillRect(30, 24, 6, 8); 
     ctx.fillStyle = '#111';
-    ctx.fillRect(0, 10, 8, 4); // Tail base
+    ctx.fillRect(0, 10, 8, 4);
     ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 10, 3, 3); // White tip
+    ctx.fillRect(0, 10, 3, 3);
   }),
   donkey: createSprite(32, 32, (ctx) => {
     ctx.fillStyle = '#9e9e9e'; // Grey Body
@@ -311,23 +305,52 @@ const Assets = {
      ctx.fillRect(4, 4, 2, 4); // Ears
      ctx.fillRect(8, 4, 2, 4);
   }),
-  greenHouse: createSprite(128, 128, (ctx) => {
-    // Green House (Blog) -> Now About Me
-    ctx.fillStyle = '#f1f8e9'; // Light Green/White Walls
+  farmHouse: createSprite(128, 128, (ctx) => {
+    // Farm House (About Me) - Brick Style
+    // Brick Wall
+    ctx.fillStyle = '#bf360c'; // Deep Red Brick base
     ctx.fillRect(16, 48, 96, 64);
-    ctx.fillStyle = '#2e7d32'; // Green Roof
+    
+    // Brick Texture
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    for(let i=0; i<8; i++) {
+        ctx.fillRect(16, 48 + i*8, 96, 1); // Horiz lines
+    }
+    for(let i=0; i<8; i++) {
+       for(let j=0; j<6; j++) {
+           let offset = (i%2) * 8;
+           ctx.fillRect(16 + j*16 + offset, 48 + i*8, 1, 8); // Vert lines
+       }
+    }
+    
+    // Roof
+    ctx.fillStyle = '#3e2723'; // Dark Brown
     ctx.beginPath();
     ctx.moveTo(8, 48);
     ctx.lineTo(64, 16);
     ctx.lineTo(120, 48);
     ctx.fill();
+    
+    // Porch / Deck
+    ctx.fillStyle = '#4e342e';
+    ctx.fillRect(16, 100, 96, 12);
+    
     // Door
-    ctx.fillStyle = '#3e2723';
-    ctx.fillRect(56, 80, 16, 32);
-    // Window
-    ctx.fillStyle = '#a5d6a7'; // Light green glass
+    ctx.fillStyle = '#5d4037'; // Dark Wood
+    ctx.fillRect(56, 72, 16, 28);
+    // Door Knob
+    ctx.fillStyle = '#ffeb3b';
+    ctx.fillRect(68, 86, 2, 2);
+
+    // Windows
+    ctx.fillStyle = '#81d4fa'; // Blue glass
     ctx.fillRect(24, 64, 16, 16);
     ctx.fillRect(88, 64, 16, 16);
+    // Window Frame
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(24, 64, 16, 16);
+    ctx.strokeRect(88, 64, 16, 16);
   }),
   redBarn: createSprite(160, 128, (ctx) => {
     // Red Barn (Resume)
@@ -349,19 +372,151 @@ const Assets = {
     ctx.lineTo(112, 80);
     ctx.fill();
   }),
-  blueCoop: createSprite(96, 96, (ctx) => {
-    // Blue Coop (Projects)
-    ctx.fillStyle = '#e3f2fd'; // Light Blue Walls
-    ctx.fillRect(16, 32, 64, 64);
-    ctx.fillStyle = '#1565c0'; // Blue Roof
-    ctx.beginPath();
-    ctx.moveTo(8, 32);
-    ctx.lineTo(48, 8);
-    ctx.lineTo(88, 32);
-    ctx.fill();
-    // Door
-    ctx.fillStyle = '#0d47a1';
-    ctx.fillRect(56, 56, 16, 40);
+  projectGreenhouse: createSprite(128, 112, (ctx) => {
+      // Base Setup
+      const w = 128;
+      const h = 112;
+      const floorY = 108;
+      
+      // Interior (Visible through glass)
+      ctx.fillStyle = '#4e342e'; // Dirt floor
+      ctx.fillRect(10, floorY-40, w-20, 40);
+      
+      // Tall Plants / Trees inside
+      ctx.fillStyle = '#2e7d32';
+      // Left tree
+      ctx.beginPath(); ctx.arc(30, floorY-30, 14, 0, Math.PI*2); ctx.fill();
+      // Right tree
+      ctx.beginPath(); ctx.arc(w-30, floorY-35, 16, 0, Math.PI*2); ctx.fill();
+      // Middle bushes
+      ctx.fillStyle = '#558b2f';
+      ctx.beginPath(); ctx.ellipse(64, floorY-15, 20, 10, 0, 0, Math.PI*2); ctx.fill();
+
+      // Glass Color
+      const glass = 'rgba(129, 212, 250, 0.4)'; // Light Blue Transparent
+      const metal = '#78909c'; // Blue Grey Frame
+      
+      const cx = 64;
+      const cWidth = 48; // Center width
+      const cHalf = cWidth/2;
+      const sWidth = 36; // Side width
+      
+      const peakY = 32; // Flattened roof, much lower peak
+      const shoulderY = 44; // Where roof meets wall on center
+      const sideRoofY = 54; // Where side roof meets side wall
+      const baseY = 108;
+
+      // --- Glass Fills ---
+      ctx.fillStyle = glass;
+      
+      // Center
+      ctx.beginPath();
+      ctx.moveTo(cx, peakY);
+      ctx.lineTo(cx + cHalf, shoulderY);
+      ctx.lineTo(cx + cHalf, baseY);
+      ctx.lineTo(cx - cHalf, baseY);
+      ctx.lineTo(cx - cHalf, shoulderY);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Left Side
+      ctx.beginPath();
+      ctx.moveTo(cx - cHalf, shoulderY);
+      ctx.lineTo(cx - cHalf - sWidth, sideRoofY);
+      ctx.lineTo(cx - cHalf - sWidth, baseY);
+      ctx.lineTo(cx - cHalf, baseY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Right Side
+      ctx.beginPath();
+      ctx.moveTo(cx + cHalf, shoulderY);
+      ctx.lineTo(cx + cHalf + sWidth, sideRoofY);
+      ctx.lineTo(cx + cHalf + sWidth, baseY);
+      ctx.lineTo(cx + cHalf, baseY);
+      ctx.closePath();
+      ctx.fill();
+      
+      // --- Metal Frames ---
+      ctx.strokeStyle = metal;
+      ctx.lineWidth = 3;
+      ctx.lineJoin = 'round';
+      
+      // Center Frame
+      ctx.beginPath();
+      ctx.moveTo(cx - cHalf, baseY);
+      ctx.lineTo(cx - cHalf, shoulderY);
+      ctx.lineTo(cx, peakY);
+      ctx.lineTo(cx + cHalf, shoulderY);
+      ctx.lineTo(cx + cHalf, baseY);
+      ctx.stroke();
+      
+      // Center Details (Horizontal bars)
+      ctx.beginPath();
+      ctx.moveTo(cx - cHalf, shoulderY + 20); ctx.lineTo(cx + cHalf, shoulderY + 20);
+      ctx.moveTo(cx - cHalf, shoulderY + 45); ctx.lineTo(cx + cHalf, shoulderY + 45);
+      // Vertical Center Bar
+      ctx.moveTo(cx, peakY); ctx.lineTo(cx, shoulderY); 
+      ctx.stroke();
+
+      // Left Frame
+      ctx.beginPath();
+      ctx.moveTo(cx - cHalf, shoulderY);
+      ctx.lineTo(cx - cHalf - sWidth, sideRoofY);
+      ctx.lineTo(cx - cHalf - sWidth, baseY);
+      ctx.lineTo(cx - cHalf, baseY);
+      ctx.stroke();
+      // Left Details
+      ctx.beginPath();
+      ctx.moveTo(cx - cHalf - sWidth, sideRoofY + 24); ctx.lineTo(cx - cHalf, sideRoofY + 24); // Horiz
+      ctx.stroke();
+      
+      // Right Frame
+      ctx.beginPath();
+      ctx.moveTo(cx + cHalf, shoulderY);
+      ctx.lineTo(cx + cHalf + sWidth, sideRoofY);
+      ctx.lineTo(cx + cHalf + sWidth, baseY);
+      ctx.lineTo(cx + cHalf, baseY);
+      ctx.stroke();
+      // Right Details
+      ctx.beginPath();
+      ctx.moveTo(cx + cHalf, sideRoofY + 24); ctx.lineTo(cx + cHalf + sWidth, sideRoofY + 24); // Horiz
+      ctx.stroke();
+
+      // --- Door ---
+      // Wooden Door in center
+      ctx.fillStyle = '#a1887f'; // Light Wood
+      ctx.fillRect(cx - 14, baseY - 40, 28, 40);
+      ctx.strokeStyle = '#5d4037'; // Dark Frame
+      ctx.strokeRect(cx - 14, baseY - 40, 28, 40);
+      // Door Window
+      ctx.fillStyle = '#81d4fa';
+      ctx.fillRect(cx - 10, baseY - 35, 20, 12);
+      // Knob
+      ctx.fillStyle = '#ffeb3b';
+      ctx.fillRect(cx + 8, baseY - 18, 3, 3);
+
+      // --- Highlights ---
+      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      // Roof Glint
+      ctx.moveTo(cx - 10, peakY + 10); ctx.lineTo(cx, peakY + 8);
+      // Side Glint
+      ctx.moveTo(cx - cHalf - 20, sideRoofY + 10); ctx.lineTo(cx - cHalf - 10, sideRoofY + 5);
+      ctx.stroke();
+      
+      // Vines
+      ctx.fillStyle = '#388e3c';
+      // Random clusters
+      const vine = (x: number, y: number) => {
+          ctx.fillRect(x, y, 4, 4);
+          ctx.fillRect(x+2, y+2, 4, 4);
+          ctx.fillRect(x-2, y+3, 3, 3);
+      };
+      vine(cx + cHalf + sWidth - 2, sideRoofY);
+      vine(cx + cHalf + sWidth - 2, sideRoofY + 15);
+      vine(cx - cHalf - sWidth - 2, baseY - 20);
   }),
   mailbox: createSprite(32, 64, (ctx) => {
     // Post
@@ -424,10 +579,10 @@ const Assets = {
 // Revised Layout Coordinates for Clean Paths
 // Center Hub: 320, 250
 const interactables: Interactable[] = [
-  { type: 'greenHouse', x: 60, y: 50, width: 128, height: 128, label: 'About Me' },
-  { type: 'silo', x: 468, y: 24, width: 48, height: 144, label: 'Silo' },
+  { type: 'farmHouse', x: 60, y: 50, width: 128, height: 128, label: 'About Me' },
+  { type: 'silo', x: 468, y: 24, width: 48, height: 144, label: 'Silo', interactive: false },
   { type: 'redBarn', x: 500, y: 40, width: 160, height: 128, label: 'Resume' },
-  { type: 'blueCoop', x: 550, y: 350, width: 96, height: 96, label: 'Projects' },
+  { type: 'projectGreenhouse', x: 550, y: 350, width: 128, height: 112, label: 'Projects' },
   // Mailbox moved to intersection of gate path (x=128) and hub horizontal path (y~250)
   { type: 'mailbox', x: 96, y: 260, width: 32, height: 64, label: 'Contact' },
   { type: 'board', x: 320, y: 250, width: 64, height: 64, label: 'Blog' },
@@ -440,7 +595,7 @@ const ponds: Pond[] = [
 // Initial Entities
 const initialEntities: Entity[] = [
   { id: 'player', type: 'player', x: 330, y: 330, vx: 0, vy: 0, direction: 'down', frame: 0, state: 'idle', speed: 4 },
-  { id: 'dog', type: 'dog', x: 350, y: 250, vx: 0, vy: 0, direction: 'right', frame: 0, state: 'idle', speed: 6, idleTimer: 100 }, // Increased base speed
+  { id: 'dog', type: 'dog', x: 200, y: 200, vx: 0, vy: 0, direction: 'right', frame: 0, state: 'idle', speed: 6, idleTimer: 100 },
   { id: 'donkey', type: 'donkey', x: 550, y: 150, vx: 0, vy: 0, direction: 'left', frame: 0, state: 'idle', speed: 1, idleTimer: 200 },
   { id: 'goat1', type: 'goat', x: 520, y: 250, vx: 0, vy: 0, direction: 'right', frame: 0, state: 'idle', speed: 2, idleTimer: 50 },
   { id: 'rabbit1', type: 'rabbit', x: 450, y: 300, vx: 0, vy: 0, direction: 'left', frame: 0, state: 'idle', speed: 3, idleTimer: 30 },
@@ -602,6 +757,9 @@ function Game() {
     const cx = player.x + 16;
     const cy = player.y + 16;
     return interactables.find(b => {
+       // Skip non-interactive items (e.g. Silo)
+       if (b.interactive === false) return false;
+       
        const dist = Math.sqrt(Math.pow(cx - (b.x + b.width/2), 2) + Math.pow(cy - (b.y + b.height/2), 2));
        return dist < 100; // Interaction radius
     });
@@ -632,6 +790,58 @@ function Game() {
   };
 
   const updateAI = (entity: Entity) => {
+    // Special Dog Logic: Follow Player
+    if (entity.type === 'dog') {
+       const player = gameState.current.entities.find(e => e.id === 'player');
+       if (!player) return entity;
+       
+       let { x, y, vx, vy, direction, state } = entity;
+       let targetX = player.x;
+       let targetY = player.y;
+
+       // Determine "behind" position based on player direction
+       const followDist = 40;
+       if (player.direction === 'up') targetY += followDist;
+       else if (player.direction === 'down') targetY -= followDist;
+       else if (player.direction === 'left') targetX += followDist;
+       else if (player.direction === 'right') targetX -= followDist;
+
+       const dx = targetX - x;
+       const dy = targetY - y;
+       const dist = Math.sqrt(dx*dx + dy*dy);
+
+       if (dist > 10) {
+           const speed = entity.speed; // Dog is fast
+           const angle = Math.atan2(dy, dx);
+           vx = Math.cos(angle) * speed;
+           vy = Math.sin(angle) * speed;
+           state = 'run';
+       } else {
+           vx = 0;
+           vy = 0;
+           state = 'idle';
+           // Face same way as player when stopped
+           direction = player.direction; 
+       }
+       
+       // Simple facing update while moving
+       if (vx !== 0 || vy !== 0) {
+          if (Math.abs(vx) > Math.abs(vy)) direction = vx > 0 ? 'right' : 'left';
+          else direction = vy > 0 ? 'down' : 'up';
+       }
+
+       let nextX = x + vx;
+       let nextY = y + vy;
+       
+       if (checkCollision(nextX, nextY, 32, 32, entity.id)) {
+          // Slide or stop
+           vx = 0; vy = 0; nextX = x; nextY = y;
+       }
+
+       return { ...entity, x: nextX, y: nextY, vx, vy, direction, state };
+    }
+
+    // Standard AI (Wander)
     if (entity.type === 'player') return entity;
 
     let { x, y, vx, vy, idleTimer, state, direction } = entity;
@@ -880,7 +1090,7 @@ function Game() {
     // Connected Paths (Hub and Spoke to avoid crop intersection)
     // Hub Center: 320, 250
     
-    // Path to Green House (Top Left)
+    // Path to Farm House (Top Left)
     drawPathLine(320, 250, 124, 250);
     drawPathLine(124, 250, 124, 180);
 
@@ -893,7 +1103,7 @@ function Game() {
     drawPathLine(320, 250, 128, 250);
     drawPathLine(128, 250, 128, BOUNDS.h);
 
-    // Path to Blue Coop (Bottom Right)
+    // Path to Project Greenhouse (Bottom Right)
     drawPathLine(320, 250, 600, 250);
     drawPathLine(600, 250, 600, 400);
 
@@ -965,19 +1175,22 @@ function Game() {
        const player = entities.find(e => e.id === 'player');
        if (player) {
          const b = interactables.find(i => i.type === uiStateRef.current.interactionTarget);
-         ctx.fillStyle = '#fff';
-         ctx.strokeStyle = '#000';
-         ctx.lineWidth = 2;
-         ctx.beginPath();
-         ctx.roundRect(player.x - 20, player.y - 40, 100, 30, 5);
-         ctx.fill();
-         ctx.stroke();
-         
-         ctx.fillStyle = '#000';
-         ctx.font = '16px VT323';
-         ctx.textAlign = 'center';
-         ctx.fillText(`${b?.label || 'Interact'}`, player.x + 30, player.y - 20);
-         ctx.textAlign = 'left'; 
+         // Only draw if user hasn't explicitly disabled interaction
+         if (b && b.interactive !== false) {
+             ctx.fillStyle = '#fff';
+             ctx.strokeStyle = '#000';
+             ctx.lineWidth = 2;
+             ctx.beginPath();
+             ctx.roundRect(player.x - 20, player.y - 40, 100, 30, 5);
+             ctx.fill();
+             ctx.stroke();
+             
+             ctx.fillStyle = '#000';
+             ctx.font = '16px VT323';
+             ctx.textAlign = 'center';
+             ctx.fillText(`${b.label || 'Interact'}`, player.x + 30, player.y - 20);
+             ctx.textAlign = 'left'; 
+         }
        }
     }
 
@@ -1037,7 +1250,7 @@ function Game() {
           </button>
 
           {/* Content Based on Building */}
-          {uiState.modalOpen === 'greenHouse' && (
+          {uiState.modalOpen === 'farmHouse' && (
             <div>
               <h2 style={{ borderBottom: '2px solid #3e2723', paddingBottom: '10px' }}>About Me</h2>
               <p style={{ fontSize: '1.2rem' }}>
@@ -1065,7 +1278,7 @@ function Game() {
             </div>
           )}
 
-          {uiState.modalOpen === 'blueCoop' && (
+          {uiState.modalOpen === 'projectGreenhouse' && (
              <div>
                <h2 style={{ borderBottom: '2px solid #3e2723', paddingBottom: '10px' }}>Projects</h2>
                <div style={{ display: 'grid', gap: '10px' }}>
@@ -1113,13 +1326,6 @@ function Game() {
                  <a href="#" style={{ display: 'block', color: '#3e2723', marginBottom: '10px' }}>GitHub</a>
                </div>
              </div>
-          )}
-
-          {uiState.modalOpen === 'silo' && (
-            <div>
-              <h2 style={{ borderBottom: '2px solid #3e2723', paddingBottom: '10px' }}>Silo</h2>
-              <p>Full of hay for the animals.</p>
-            </div>
           )}
           
           <div style={{ marginTop: '20px', textAlign: 'center', fontSize: '0.9rem', color: '#5d4037' }}>
