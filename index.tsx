@@ -251,19 +251,39 @@ const Assets = {
     ctx.fillRect(11, 24, 4, 8);
     ctx.fillRect(17, 24, 4, 8);
   }),
-  dog: createSprite(32, 32, (ctx) => {
-    // Bernese Mountain Dog: Black, White chest, Rust spots
-    ctx.fillStyle = '#111'; // Body
-    ctx.fillRect(6, 10, 20, 14);
-    ctx.fillStyle = '#fff'; // Chest/Face
-    ctx.fillRect(6, 14, 6, 10); // Chest
-    ctx.fillRect(6, 8, 6, 6); // Face
-    ctx.fillStyle = '#111'; // Ears
-    ctx.fillRect(4, 6, 4, 6);
-    ctx.fillStyle = '#8d6e63'; // Rust
-    ctx.fillRect(6, 18, 4, 6); // Legs
-    ctx.fillRect(20, 18, 4, 6);
-    ctx.fillRect(8, 10, 2, 2); // Eye brows
+  dog: createSprite(48, 32, (ctx) => {
+    // Bernese Mountain Dog: Enhanced Profile
+    // Body
+    ctx.fillStyle = '#111'; // Jet Black
+    ctx.fillRect(8, 10, 28, 14); 
+    
+    // Head
+    ctx.fillStyle = '#111';
+    ctx.fillRect(28, 4, 12, 12);
+    
+    // Snout/White blaze
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(36, 10, 6, 6); // Snout tip
+    ctx.fillRect(32, 4, 4, 10); // Blaze up forehead
+    
+    // Ears
+    ctx.fillStyle = '#111'; // Black ears
+    ctx.fillRect(28, 4, 6, 6); 
+    
+    // Chest
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(8, 14, 10, 10);
+    
+    // Legs (Rust)
+    ctx.fillStyle = '#8d6e63'; // Brown/Rust
+    ctx.fillRect(8, 24, 6, 8); // Back Leg
+    ctx.fillRect(30, 24, 6, 8); // Front Leg
+    
+    // Tail
+    ctx.fillStyle = '#111';
+    ctx.fillRect(0, 10, 8, 4); // Tail base
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 10, 3, 3); // White tip
   }),
   donkey: createSprite(32, 32, (ctx) => {
     ctx.fillStyle = '#9e9e9e'; // Grey Body
@@ -292,7 +312,7 @@ const Assets = {
      ctx.fillRect(8, 4, 2, 4);
   }),
   greenHouse: createSprite(128, 128, (ctx) => {
-    // Green House (Blog)
+    // Green House (Blog) -> Now About Me
     ctx.fillStyle = '#f1f8e9'; // Light Green/White Walls
     ctx.fillRect(16, 48, 96, 64);
     ctx.fillStyle = '#2e7d32'; // Green Roof
@@ -404,13 +424,13 @@ const Assets = {
 // Revised Layout Coordinates for Clean Paths
 // Center Hub: 320, 250
 const interactables: Interactable[] = [
-  { type: 'greenHouse', x: 60, y: 50, width: 128, height: 128, label: 'Blog' },
-  { type: 'silo', x: 440, y: 40, width: 48, height: 144, label: 'Silo' },
+  { type: 'greenHouse', x: 60, y: 50, width: 128, height: 128, label: 'About Me' },
+  { type: 'silo', x: 468, y: 24, width: 48, height: 144, label: 'Silo' },
   { type: 'redBarn', x: 500, y: 40, width: 160, height: 128, label: 'Resume' },
   { type: 'blueCoop', x: 550, y: 350, width: 96, height: 96, label: 'Projects' },
-  // Replaced Yellow Cottage with Mailbox (Left of path x=128)
-  { type: 'mailbox', x: 96, y: 400, width: 32, height: 64, label: 'Contact' },
-  { type: 'board', x: 320, y: 250, width: 64, height: 64, label: 'About Me' },
+  // Mailbox moved to intersection of gate path (x=128) and hub horizontal path (y~250)
+  { type: 'mailbox', x: 96, y: 260, width: 32, height: 64, label: 'Contact' },
+  { type: 'board', x: 320, y: 250, width: 64, height: 64, label: 'Blog' },
 ];
 
 const ponds: Pond[] = [
@@ -420,7 +440,7 @@ const ponds: Pond[] = [
 // Initial Entities
 const initialEntities: Entity[] = [
   { id: 'player', type: 'player', x: 330, y: 330, vx: 0, vy: 0, direction: 'down', frame: 0, state: 'idle', speed: 4 },
-  { id: 'dog', type: 'dog', x: 350, y: 250, vx: 0, vy: 0, direction: 'right', frame: 0, state: 'idle', speed: 5, idleTimer: 100 },
+  { id: 'dog', type: 'dog', x: 350, y: 250, vx: 0, vy: 0, direction: 'right', frame: 0, state: 'idle', speed: 6, idleTimer: 100 }, // Increased base speed
   { id: 'donkey', type: 'donkey', x: 550, y: 150, vx: 0, vy: 0, direction: 'left', frame: 0, state: 'idle', speed: 1, idleTimer: 200 },
   { id: 'goat1', type: 'goat', x: 520, y: 250, vx: 0, vy: 0, direction: 'right', frame: 0, state: 'idle', speed: 2, idleTimer: 50 },
   { id: 'rabbit1', type: 'rabbit', x: 450, y: 300, vx: 0, vy: 0, direction: 'left', frame: 0, state: 'idle', speed: 3, idleTimer: 30 },
@@ -1017,7 +1037,7 @@ function Game() {
           </button>
 
           {/* Content Based on Building */}
-          {uiState.modalOpen === 'board' && (
+          {uiState.modalOpen === 'greenHouse' && (
             <div>
               <h2 style={{ borderBottom: '2px solid #3e2723', paddingBottom: '10px' }}>About Me</h2>
               <p style={{ fontSize: '1.2rem' }}>
@@ -1065,7 +1085,7 @@ function Game() {
              </div>
           )}
 
-          {uiState.modalOpen === 'greenHouse' && (
+          {uiState.modalOpen === 'board' && (
              <div>
                <h2 style={{ borderBottom: '2px solid #3e2723', paddingBottom: '10px' }}>Blog</h2>
                <article style={{ marginBottom: '15px' }}>
