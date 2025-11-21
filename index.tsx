@@ -971,6 +971,14 @@ function Game() {
       life: number;
       maxLife: number;
     }[],
+    wateredCorn: [] as { x: number; y: number; timer: number }[],
+    wateringStream: {
+      active: false,
+      sx: 0,
+      sy: 0,
+      tx: 0,
+      ty: 0,
+    },
   });
 
   // React State for UI Overlays
@@ -1297,8 +1305,16 @@ function Game() {
   };
 
   const update = () => {
-    const { entities, keys, camera, targetPos, fishAnim, particles } =
-      gameState.current;
+    const {
+      entities,
+      keys,
+      camera,
+      targetPos,
+      fishAnim,
+      particles,
+      wateredCorn,
+      wateringStream,
+    } = gameState.current;
     const player = entities.find((e) => e.id === "player")!;
     const isNight = uiStateRef.current.isNight;
 
@@ -1393,6 +1409,75 @@ function Game() {
       }
     }
 
+    // Water corn when player is close (daytime only)
+    if (!isNight) {
+      const px = player.x + 16;
+      const py = player.y + 24; // feet
+      const WATER_RADIUS = 45;
+
+      let nearestCorn: { cx: number; cy: number } | null = null;
+      let nearestDist = Infinity;
+
+      cornField.forEach((pos) => {
+        const cx = pos.x + 16;
+        const cy = pos.y + 24; // near base of stalk
+        const dx = cx - px;
+        const dy = cy - py;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < WATER_RADIUS) {
+          let entry = wateredCorn.find((w) => w.x === pos.x && w.y === pos.y);
+          if (!entry) {
+            entry = { x: pos.x, y: pos.y, timer: 160 };
+            wateredCorn.push(entry);
+
+            // Water splash particles around the corn tile base
+            for (let i = 0; i < 8; i++) {
+              particles.push({
+                x: cx,
+                y: cy + 4,
+                vx: (Math.random() - 0.5) * 1.2,
+                vy: -Math.random() * 1.8 - 0.4,
+                life: 20 + Math.random() * 10,
+                maxLife: 30,
+              });
+            }
+          } else {
+            // Refresh timer while player stays close
+            entry.timer = 160;
+          }
+
+          if (dist < nearestDist) {
+            nearestDist = dist;
+            nearestCorn = { cx, cy };
+          }
+        }
+      });
+
+      // Update watering stream from can to nearest corn base
+      if (nearestCorn) {
+        wateringStream.active = true;
+        // Approximate can spout position on player sprite
+        wateringStream.sx = player.x + 6;
+        wateringStream.sy = player.y + 22;
+        wateringStream.tx = nearestCorn.cx;
+        wateringStream.ty = nearestCorn.cy;
+      } else {
+        wateringStream.active = false;
+      }
+
+      // Decay watered state over time
+      for (let i = wateredCorn.length - 1; i >= 0; i--) {
+        wateredCorn[i].timer -= 1;
+        if (wateredCorn[i].timer <= 0) {
+          wateredCorn.splice(i, 1);
+        }
+      }
+    } else {
+      // No watering stream at night
+      gameState.current.wateringStream.active = false;
+    }
+
     // Check Interaction
     const target = checkInteraction(player);
     if (target?.type !== uiStateRef.current.interactionTarget) {
@@ -1465,8 +1550,15 @@ function Game() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const { entities, camera, targetPos, fishAnim, particles } =
-      gameState.current;
+    const {
+      entities,
+      camera,
+      targetPos,
+      fishAnim,
+      particles,
+      wateredCorn,
+      wateringStream,
+    } = gameState.current;
 
     ctx.fillStyle = "#567d46"; // Grass base color to match farm
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1499,13 +1591,30 @@ function Game() {
       ctx.restore();
     }
 
-    // Draw Water Particles
+    // Draw Water Particles (pond splashes / corn splashes)
     ctx.fillStyle = "#e1f5fe";
     particles.forEach((p) => {
       ctx.globalAlpha = p.life / p.maxLife;
-      ctx.fillRect(p.x, p.y, 2, 2);
+      // Larger droplets for better visibility
+      ctx.fillRect(p.x, p.y, 4, 4);
     });
     ctx.globalAlpha = 1.0;
+
+    // Draw water stream from can to nearest watered corn (if any)
+    if (wateringStream.active) {
+      ctx.save();
+      ctx.strokeStyle = "#4fc3f7";
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 0.9;
+      ctx.beginPath();
+      const midX = (wateringStream.sx + wateringStream.tx) / 2;
+      const midY = Math.min(wateringStream.sy, wateringStream.ty) - 10;
+      ctx.moveTo(wateringStream.sx, wateringStream.sy);
+      ctx.quadraticCurveTo(midX, midY, wateringStream.tx, wateringStream.ty);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    }
 
     // Draw Paths
     const drawPathLine = (x1: number, y1: number, x2: number, y2: number) => {
@@ -1539,9 +1648,23 @@ function Game() {
     drawPathLine(320, 250, 600, 250);
     drawPathLine(600, 250, 600, 400);
 
-    // Draw Corn
+    // Draw Corn (with watered ground + subtle water overlay)
     cornField.forEach((pos) => {
+      const isWatered = wateredCorn.some((w) => w.x === pos.x && w.y === pos.y);
+      if (isWatered) {
+        // Darker, richer ground patch just under the stalk base
+        ctx.fillStyle = "#33691e";
+        ctx.fillRect(pos.x, pos.y + 20, 32, 12);
+      }
+
+      // Corn sprite
       ctx.drawImage(Assets.corn, pos.x, pos.y);
+
+      if (isWatered) {
+        // Smaller blue highlight at the stalk base
+        ctx.fillStyle = "rgba(129, 212, 250, 0.5)";
+        ctx.fillRect(pos.x + 10, pos.y + 18, 12, 10);
+      }
     });
 
     // Buildings (Layer 0 - Behind Player mostly)
