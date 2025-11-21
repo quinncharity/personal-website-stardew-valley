@@ -16,7 +16,7 @@ const BOUNDS = {
   h: 600,
 };
 
-type EntityType = "player" | "dog" | "donkey" | "goat" | "rabbit";
+type EntityType = "player" | "dog" | "donkey" | "goat" | "rabbit" | "cow";
 type SceneryType = "tree" | "bush" | "fence_h" | "fence_v" | "fence_c" | "gate"; // fence horizontal, vertical, corner
 type InteractableType =
   | "farmHouse"
@@ -356,6 +356,34 @@ const Assets = {
     ctx.fillRect(4, 8, 8, 6); // Body
     ctx.fillRect(4, 4, 2, 4); // Ears
     ctx.fillRect(8, 4, 2, 4);
+  }),
+  cow: createSprite(32, 32, (ctx) => {
+    // Simple blocky cow (black & white)
+    // Body
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(6, 10, 20, 14);
+    // Spots
+    ctx.fillStyle = "#424242";
+    ctx.fillRect(8, 12, 4, 4);
+    ctx.fillRect(18, 16, 5, 4);
+    // Head
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(2, 10, 8, 8);
+    // Muzzle
+    ctx.fillStyle = "#ffcc80";
+    ctx.fillRect(2, 15, 8, 4);
+    // Ears
+    ctx.fillStyle = "#424242";
+    ctx.fillRect(2, 8, 2, 3);
+    ctx.fillRect(8, 8, 2, 3);
+    // Legs
+    ctx.fillStyle = "#bdbdbd";
+    ctx.fillRect(8, 22, 3, 6);
+    ctx.fillRect(18, 22, 3, 6);
+    // Hooves
+    ctx.fillStyle = "#424242";
+    ctx.fillRect(8, 26, 3, 2);
+    ctx.fillRect(18, 26, 3, 2);
   }),
   farmHouse: createSprite(128, 128, (ctx) => {
     // Farm House (About Me) - Brick Style
@@ -739,6 +767,19 @@ const initialEntities: Entity[] = [
     idleTimer: 200,
   },
   {
+    id: "donkey2",
+    type: "donkey",
+    x: 620,
+    y: 220,
+    vx: 0,
+    vy: 0,
+    direction: "right",
+    frame: 0,
+    state: "idle",
+    speed: 1,
+    idleTimer: 180,
+  },
+  {
     id: "goat1",
     type: "goat",
     x: 520,
@@ -750,6 +791,45 @@ const initialEntities: Entity[] = [
     state: "idle",
     speed: 2,
     idleTimer: 50,
+  },
+  {
+    id: "goat2",
+    type: "goat",
+    x: 560,
+    y: 280,
+    vx: 0,
+    vy: 0,
+    direction: "left",
+    frame: 0,
+    state: "idle",
+    speed: 2,
+    idleTimer: 70,
+  },
+  {
+    id: "cow1",
+    type: "cow",
+    x: 420,
+    y: 260,
+    vx: 0,
+    vy: 0,
+    direction: "right",
+    frame: 0,
+    state: "idle",
+    speed: 1.5,
+    idleTimer: 120,
+  },
+  {
+    id: "cow2",
+    type: "cow",
+    x: 460,
+    y: 300,
+    vx: 0,
+    vy: 0,
+    direction: "left",
+    frame: 0,
+    state: "idle",
+    speed: 1.5,
+    idleTimer: 90,
   },
   {
     id: "rabbit1",
@@ -1516,6 +1596,7 @@ function Game() {
             donkey: { w: 32, h: 32 },
             goat: { w: 32, h: 32 },
             rabbit: { w: 16, h: 16 },
+            cow: { w: 32, h: 32 },
           };
           const sz = sizeMap[e.type as EntityType] || { w: 32, h: 32 };
 
