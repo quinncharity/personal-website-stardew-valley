@@ -382,18 +382,41 @@ const Assets = {
       ctx.fillStyle = '#4e342e'; // Dirt floor
       ctx.fillRect(10, floorY-40, w-20, 40);
       
-      // Tall Plants / Trees inside
-      ctx.fillStyle = '#2e7d32';
-      // Left tree
-      ctx.beginPath(); ctx.arc(30, floorY-30, 14, 0, Math.PI*2); ctx.fill();
-      // Right tree
-      ctx.beginPath(); ctx.arc(w-30, floorY-35, 16, 0, Math.PI*2); ctx.fill();
-      // Middle bushes
-      ctx.fillStyle = '#558b2f';
-      ctx.beginPath(); ctx.ellipse(64, floorY-15, 20, 10, 0, 0, Math.PI*2); ctx.fill();
+      // Rows of Vegetables (Dirt Paths)
+      ctx.fillStyle = '#3e2723'; // Darker Dirt rows
+      ctx.fillRect(14, floorY-36, 100, 8);
+      ctx.fillRect(14, floorY-24, 100, 8);
+      ctx.fillRect(14, floorY-12, 100, 8);
+
+      const drawVeggie = (x: number, y: number, type: 'pumpkin' | 'carrot' | 'green') => {
+          if (type === 'pumpkin') {
+              ctx.fillStyle = '#ef6c00'; // Orange
+              ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = '#2e7d32'; // Stem
+              ctx.fillRect(x-1, y-5, 2, 3);
+          } else if (type === 'carrot') {
+              ctx.fillStyle = '#2e7d32'; // Greens
+              ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x-3, y-6); ctx.lineTo(x+3, y-6); ctx.fill();
+              ctx.fillStyle = '#ff6f00'; // Top of carrot visible
+              ctx.beginPath(); ctx.arc(x, y+1, 2, 0, Math.PI*2); ctx.fill();
+          } else {
+              // Greens/Lettuce
+              ctx.fillStyle = '#43a047';
+              ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2); ctx.fill();
+              ctx.fillStyle = '#81c784';
+              ctx.beginPath(); ctx.arc(x, y-2, 3, 0, Math.PI*2); ctx.fill();
+          }
+      };
+
+      // Row 1: Pumpkins
+      for(let i=0; i<6; i++) drawVeggie(20 + i*16, floorY-32, 'pumpkin');
+      // Row 2: Carrots
+      for(let i=0; i<7; i++) drawVeggie(20 + i*14, floorY-20, 'carrot');
+      // Row 3: Greens
+      for(let i=0; i<6; i++) drawVeggie(20 + i*16, floorY-8, 'green');
 
       // Glass Color
-      const glass = 'rgba(129, 212, 250, 0.4)'; // Light Blue Transparent
+      const glass = 'rgba(129, 212, 250, 0.3)'; // Light Blue Transparent (More transparent to see veggies)
       const metal = '#78909c'; // Blue Grey Frame
       
       const cx = 64;
@@ -790,91 +813,54 @@ function Game() {
   };
 
   const updateAI = (entity: Entity) => {
-    // Special Dog Logic: Follow Player
-    if (entity.type === 'dog') {
-       const player = gameState.current.entities.find(e => e.id === 'player');
-       if (!player) return entity;
-       
-       let { x, y, vx, vy, direction, state } = entity;
-       let targetX = player.x;
-       let targetY = player.y;
-
-       // Determine "behind" position based on player direction
-       const followDist = 40;
-       if (player.direction === 'up') targetY += followDist;
-       else if (player.direction === 'down') targetY -= followDist;
-       else if (player.direction === 'left') targetX += followDist;
-       else if (player.direction === 'right') targetX -= followDist;
-
-       const dx = targetX - x;
-       const dy = targetY - y;
-       const dist = Math.sqrt(dx*dx + dy*dy);
-
-       if (dist > 10) {
-           const speed = entity.speed; // Dog is fast
-           const angle = Math.atan2(dy, dx);
-           vx = Math.cos(angle) * speed;
-           vy = Math.sin(angle) * speed;
-           state = 'run';
-       } else {
-           vx = 0;
-           vy = 0;
-           state = 'idle';
-           // Face same way as player when stopped
-           direction = player.direction; 
-       }
-       
-       // Simple facing update while moving
-       if (vx !== 0 || vy !== 0) {
-          if (Math.abs(vx) > Math.abs(vy)) direction = vx > 0 ? 'right' : 'left';
-          else direction = vy > 0 ? 'down' : 'up';
-       }
-
-       let nextX = x + vx;
-       let nextY = y + vy;
-       
-       if (checkCollision(nextX, nextY, 32, 32, entity.id)) {
-          // Slide or stop
-           vx = 0; vy = 0; nextX = x; nextY = y;
-       }
-
-       return { ...entity, x: nextX, y: nextY, vx, vy, direction, state };
-    }
-
-    // Standard AI (Wander)
+    // Standard AI (Wander) - now used by all animals including dog
     if (entity.type === 'player') return entity;
 
     let { x, y, vx, vy, idleTimer, state, direction } = entity;
+    if (idleTimer === undefined) idleTimer = 0;
 
-    if (idleTimer !== undefined && idleTimer > 0) {
-      idleTimer--;
-      vx = 0;
-      vy = 0;
-      state = 'idle';
+    if (idleTimer > 0) {
+        idleTimer--;
+        // If moving, keep moving. If idle, stay idle.
+        if (state === 'idle') {
+             vx = 0; vy = 0; 
+        }
     } else {
-      if (state === 'idle') {
-         if (Math.random() < 0.05) {
-             state = Math.random() > 0.5 ? 'walk' : 'run';
-             const speed = state === 'run' ? entity.speed * 1.5 : entity.speed * 0.5;
-             const angle = Math.random() * Math.PI * 2;
-             vx = Math.cos(angle) * speed;
-             vy = Math.sin(angle) * speed;
-             idleTimer = Math.floor(Math.random() * 100) + 20;
-         } else {
-             idleTimer = 20;
-         }
-      }
+        // Timer expired, pick new state
+        if (state === 'walk' || state === 'run') {
+            // Finished moving, go to idle
+            state = 'idle';
+            vx = 0;
+            vy = 0;
+            idleTimer = Math.floor(Math.random() * 100) + 50; // Idle for 50-150 frames
+        } else {
+            // Finished idling, decide to move or stay idle
+            if (Math.random() < 0.3) { // 30% chance to move
+                 state = Math.random() > 0.5 ? 'walk' : 'run';
+                 const speed = state === 'run' ? entity.speed * 1.5 : entity.speed * 0.5;
+                 const angle = Math.random() * Math.PI * 2;
+                 vx = Math.cos(angle) * speed;
+                 vy = Math.sin(angle) * speed;
+                 idleTimer = Math.floor(Math.random() * 100) + 30; // Move for 30-130 frames
+            } else {
+                 // Stay idle
+                 idleTimer = Math.floor(Math.random() * 50) + 20;
+            }
+        }
     }
 
+    // Direction update based on velocity
     if (Math.abs(vx) > Math.abs(vy)) {
       direction = vx > 0 ? 'right' : 'left';
     } else if (Math.abs(vy) > 0.1) {
       direction = vy > 0 ? 'down' : 'up';
     }
 
+    // Physics / Collision
     let nextX = x + vx;
     let nextY = y + vy;
     
+    // Simple Bounce
     if (checkCollision(nextX, nextY, 32, 32, entity.id)) {
         vx = -vx;
         vy = -vy;
