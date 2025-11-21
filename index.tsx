@@ -898,6 +898,7 @@ function Game() {
     modalOpen: null as InteractableType | null,
     interactionTarget: null as InteractableType | null,
     menuOpen: false,
+    isNight: false,
   });
 
   // Ref to access UI state inside game loop without staleness
@@ -1219,6 +1220,7 @@ function Game() {
     const { entities, keys, camera, targetPos, fishAnim, particles } =
       gameState.current;
     const player = entities.find((e) => e.id === "player")!;
+    const isNight = uiStateRef.current.isNight;
 
     // Player Movement
     player.vx = 0;
@@ -1300,7 +1302,14 @@ function Game() {
     // Update Animals
     for (let i = 0; i < entities.length; i++) {
       if (entities[i].id !== "player") {
-        entities[i] = updateAI(entities[i]);
+        if (isNight) {
+          // At night, animals stay where they are and "sleep"
+          entities[i].vx = 0;
+          entities[i].vy = 0;
+          entities[i].state = "idle";
+        } else {
+          entities[i] = updateAI(entities[i]);
+        }
       }
     }
 
@@ -1497,16 +1506,54 @@ function Game() {
         ctx.ellipse(e.x + 16, e.y + 28, 10, 4, 0, 0, Math.PI * 2);
         ctx.fill();
         if (asset) {
-          // Simple Facing flip for left
+          const isNight = uiStateRef.current.isNight;
+          const isPlayer = e.id === "player";
+
+          // Basic per-entity sprite size (for rotation when sleeping)
+          const sizeMap: { [key in EntityType]: { w: number; h: number } } = {
+            player: { w: 32, h: 32 },
+            dog: { w: 48, h: 32 },
+            donkey: { w: 32, h: 32 },
+            goat: { w: 32, h: 32 },
+            rabbit: { w: 16, h: 16 },
+          };
+          const sz = sizeMap[e.type as EntityType] || { w: 32, h: 32 };
+
+          // Draw sprite (possibly rotated for sleeping)
           ctx.save();
-          if (e.direction === "left") {
-            ctx.translate(e.x + 32, e.y);
-            ctx.scale(-1, 1);
-            ctx.drawImage(asset, 0, frameOffset);
+          if (isNight && !isPlayer) {
+            // At night, animals lay down: rotate sprite 90 degrees at its center
+            const cx = e.x + sz.w / 2;
+            const cy = e.y + sz.h / 2;
+            ctx.translate(cx, cy);
+            ctx.rotate(Math.PI / 2);
+            ctx.drawImage(asset, -sz.w / 2, -sz.h / 2);
           } else {
-            ctx.drawImage(asset, e.x, e.y + frameOffset);
+            // Daytime / player rendering with simple left/right flip
+            if (e.direction === "left") {
+              ctx.translate(e.x + 32, e.y);
+              ctx.scale(-1, 1);
+              ctx.drawImage(asset, 0, frameOffset);
+            } else {
+              ctx.drawImage(asset, e.x, e.y + frameOffset);
+            }
           }
           ctx.restore();
+
+          // Draw sleep ZZZ above animals at night
+          if (isNight && !isPlayer) {
+            ctx.save();
+            ctx.font = "12px VT323";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "rgba(255,255,255,0.9)";
+            const zBaseX = e.x + sz.w / 2;
+            const zBaseY = e.y - 4;
+            ctx.fillText("Z", zBaseX, zBaseY);
+            ctx.fillText("Z", zBaseX + 4, zBaseY - 10);
+            ctx.fillText("Z", zBaseX + 8, zBaseY - 20);
+            ctx.textAlign = "left";
+            ctx.restore();
+          }
         }
       } else {
         const s = obj as Scenery;
@@ -1514,6 +1561,27 @@ function Game() {
         if (asset) ctx.drawImage(asset, s.x, s.y);
       }
     });
+
+    // Night-time overlay and farmhouse lights
+    if (uiStateRef.current.isNight) {
+      // Dim the whole farm slightly
+      ctx.fillStyle = "rgba(0, 0, 40, 0.45)";
+      ctx.fillRect(
+        camera.x - 100,
+        camera.y - 100,
+        BOUNDS.w + 200,
+        BOUNDS.h + 200
+      );
+
+      // Make farmhouse windows glow warm yellow
+      const farm = interactables.find((b) => b.type === "farmHouse");
+      if (farm) {
+        ctx.fillStyle = "rgba(255, 241, 118, 0.95)";
+        // Window positions match farmhouse sprite design
+        ctx.fillRect(farm.x + 24, farm.y + 64, 16, 16);
+        ctx.fillRect(farm.x + 88, farm.y + 64, 16, 16);
+      }
+    }
 
     // Interaction Prompt
     if (uiStateRef.current.interactionTarget && !uiStateRef.current.modalOpen) {
@@ -1571,7 +1639,7 @@ function Game() {
     >
       <canvas ref={canvasRef} style={{ display: "block" }} />
 
-      {/* Top-left Dropdown Navigation */}
+      {/* Top-left Navigation + Theme Toggle */}
       <div
         data-ui-element="true"
         style={{
@@ -1580,6 +1648,9 @@ function Game() {
           left: "16px",
           zIndex: 120,
           fontFamily: "'VT323', monospace",
+          display: "flex",
+          gap: "8px",
+          alignItems: "center",
         }}
       >
         <button
@@ -1599,6 +1670,28 @@ function Game() {
           }}
         >
           Menu ▾
+        </button>
+        {/* Light / Dark mode toggle */}
+        <button
+          onClick={() =>
+            setUiState((prev) => ({ ...prev, isNight: !prev.isNight }))
+          }
+          style={{
+            width: "38px",
+            height: "38px",
+            borderRadius: "50%",
+            border: "3px solid #5d4037",
+            background: uiState.isNight ? "#263238" : "#ffecb3",
+            color: uiState.isNight ? "#ffe082" : "#3e2723",
+            cursor: "pointer",
+            boxShadow: "0 2px 0 #3e2723",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: "18px",
+          }}
+        >
+          {uiState.isNight ? "🌙" : "☀️"}
         </button>
         {uiState.menuOpen && (
           <div
@@ -1661,13 +1754,13 @@ function Game() {
             transform: "translate(-50%, -50%)",
             width: "80%",
             maxWidth: "600px",
-            backgroundColor: "#ffecb3",
-            border: "8px solid #5d4037",
+            backgroundColor: uiState.isNight ? "#263238" : "#ffecb3",
+            border: uiState.isNight ? "8px solid #90a4ae" : "8px solid #5d4037",
             borderRadius: "10px",
             padding: "20px",
             boxShadow: "0 10px 20px rgba(0,0,0,0.5)",
             fontFamily: "'VT323', monospace",
-            color: "#3e2723",
+            color: uiState.isNight ? "#eceff1" : "#3e2723",
             zIndex: 100,
           }}
         >
