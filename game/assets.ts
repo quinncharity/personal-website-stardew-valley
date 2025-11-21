@@ -619,6 +619,45 @@ export const Assets = {
       ctx.fillRect(20, 44 + i * 10, 8, 2);
     }
   }),
+  hayBales: createSprite(64, 48, (ctx) => {
+    // Ground shadow (a bit wider for the cluster)
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.beginPath();
+    ctx.ellipse(32, 40, 26, 7, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    const drawBale = (x: number, y: number, w: number, h: number) => {
+      // Base color
+      ctx.fillStyle = "#fbc02d"; // Golden hay
+      ctx.fillRect(x, y, w, h);
+
+      // Edge / outline
+      ctx.strokeStyle = "#f57f17";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+
+      // Straps
+      ctx.fillStyle = "#f9a825";
+      ctx.fillRect(x + w * 0.28, y, 2, h);
+      ctx.fillRect(x + w * 0.64, y, 2, h);
+
+      // Straw texture
+      ctx.fillStyle = "#fff59d";
+      for (let i = 0; i < 6; i++) {
+        const sx = x + 2 + Math.random() * (w - 4);
+        const sy = y + 2 + Math.random() * (h - 4);
+        ctx.fillRect(sx, sy, 2, 1);
+      }
+    };
+
+    // Bottom row (two bales) – pulled closer together
+    drawBale(6, 22, 24, 16);
+    drawBale(34, 22, 24, 16);
+
+    // Bridging bale in front to close the middle gap visually
+    drawBale(18, 26, 28, 12);
+
+    // Top bale slightly forward so the stack feels pushed toward the viewer
+    drawBale(20, 10, 24, 16);
+  }),
 };
-
-

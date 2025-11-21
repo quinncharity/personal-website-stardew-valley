@@ -234,6 +234,16 @@ for (let i = 1; i < tilesY - 1; i++) {
   });
 }
 
+// Hay bales to the right of the red barn
+// Barn: x=500, width=160 → right edge = 660
+// Hay sprite: 64x48 → place with a small gap and aligned to barn base
+scenery.push({
+  id: "hay_bales_barn_right",
+  type: "hayBales",
+  x: 620,
+  y: 140,
+});
+
 // Trees outside the fence (Forest effect)
 for (let i = 0; i < 15; i++) {
   // Top forest
@@ -265,5 +275,3 @@ for (let i = 0; i < 15; i++) {
     y: Math.random() * BOUNDS.h,
   });
 }
-
-

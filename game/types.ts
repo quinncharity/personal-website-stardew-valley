@@ -6,7 +6,8 @@ export type SceneryType =
   | "fence_h"
   | "fence_v"
   | "fence_c"
-  | "gate";
+  | "gate"
+  | "hayBales";
 
 export type InteractableType =
   | "farmHouse"
