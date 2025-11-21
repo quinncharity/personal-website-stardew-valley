@@ -897,6 +897,7 @@ function Game() {
   const [uiState, setUiState] = useState({
     modalOpen: null as InteractableType | null,
     interactionTarget: null as InteractableType | null,
+    menuOpen: false,
   });
 
   // Ref to access UI state inside game loop without staleness
@@ -950,12 +951,52 @@ function Game() {
     const handlePointerDown = (e: PointerEvent) => {
       if (uiStateRef.current.modalOpen) return;
 
+      // Ignore clicks on UI overlay elements (e.g., dropdown menu)
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('[data-ui-element="true"]')) {
+        return;
+      }
+
       const rect = canvasRef.current?.getBoundingClientRect();
       if (!rect) return;
 
       // Screen Coordinates
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
+
+      // If interaction prompt is visible, treat clicks on it as "open modal"
+      if (uiStateRef.current.interactionTarget) {
+        const { entities, camera } = gameState.current;
+        const player = entities.find((e) => e.id === "player");
+        if (player) {
+          // Popup world-space rect (matches draw logic)
+          const popupWorldX = player.x - 20;
+          const popupWorldY = player.y - 40;
+          const popupW = 100;
+          const popupH = 30;
+
+          // Convert to screen-space
+          const popupScreenX = (popupWorldX - camera.x) * SCALE;
+          const popupScreenY = (popupWorldY - camera.y) * SCALE;
+          const popupScreenW = popupW * SCALE;
+          const popupScreenH = popupH * SCALE;
+
+          const withinPopup =
+            clickX >= popupScreenX &&
+            clickX <= popupScreenX + popupScreenW &&
+            clickY >= popupScreenY &&
+            clickY <= popupScreenY + popupScreenH;
+
+          if (withinPopup) {
+            const targetType = uiStateRef.current.interactionTarget;
+            setUiState((prev) => ({ ...prev, modalOpen: targetType }));
+            // Stop any existing movement
+            gameState.current.keys = {};
+            gameState.current.targetPos = null;
+            return;
+          }
+        }
+      }
 
       // World Coordinates: (Screen / Scale) + Camera
       const worldX = clickX / SCALE + gameState.current.camera.x;
@@ -1529,6 +1570,86 @@ function Game() {
       }}
     >
       <canvas ref={canvasRef} style={{ display: "block" }} />
+
+      {/* Top-left Dropdown Navigation */}
+      <div
+        data-ui-element="true"
+        style={{
+          position: "absolute",
+          top: "16px",
+          left: "16px",
+          zIndex: 120,
+          fontFamily: "'VT323', monospace",
+        }}
+      >
+        <button
+          onClick={() =>
+            setUiState((prev) => ({ ...prev, menuOpen: !prev.menuOpen }))
+          }
+          style={{
+            padding: "6px 12px",
+            background: "#ffecb3",
+            border: "3px solid #5d4037",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontFamily: "inherit",
+            fontSize: "16px",
+            color: "#3e2723",
+            boxShadow: "0 2px 0 #3e2723",
+          }}
+        >
+          Menu ▾
+        </button>
+        {uiState.menuOpen && (
+          <div
+            style={{
+              marginTop: "4px",
+              background: "#ffecb3",
+              border: "3px solid #5d4037",
+              borderRadius: "6px",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+              minWidth: "150px",
+            }}
+          >
+            {[
+              { label: "About", type: "farmHouse" as InteractableType },
+              { label: "Resume", type: "redBarn" as InteractableType },
+              {
+                label: "Projects",
+                type: "projectGreenhouse" as InteractableType,
+              },
+              { label: "Blog", type: "board" as InteractableType },
+              { label: "Contact", type: "mailbox" as InteractableType },
+            ].map((item) => (
+              <button
+                key={item.type}
+                onClick={() =>
+                  setUiState((prev) => ({
+                    ...prev,
+                    modalOpen: item.type,
+                    menuOpen: false,
+                  }))
+                }
+                style={{
+                  display: "block",
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "6px 10px",
+                  background: "transparent",
+                  border: "none",
+                  borderBottom: "1px solid rgba(93,64,55,0.4)",
+                  fontFamily: "inherit",
+                  fontSize: "15px",
+                  color: "#3e2723",
+                  cursor: "pointer",
+                }}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* UI Overlay Modal */}
       {uiState.modalOpen && (
