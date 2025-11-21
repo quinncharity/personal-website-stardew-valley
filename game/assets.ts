@@ -201,25 +201,73 @@ export const Assets = {
     ctx.fillRect(8, 16, 4, 2); // Spout
   }),
   dog: createSprite(48, 32, (ctx) => {
-    // Bernese Mountain Dog: Enhanced Profile
-    ctx.fillStyle = "#111"; // Jet Black
-    ctx.fillRect(8, 10, 28, 14);
-    ctx.fillStyle = "#111";
-    ctx.fillRect(28, 4, 12, 12);
+    // Bernese Mountain Dog: sharper tri-color side profile
+    // --- Base black silhouette (body, neck, head) ---
+    ctx.fillStyle = "#111"; // Jet black coat
+    // Torso
+    ctx.fillRect(6, 12, 28, 12);
+    // Neck
+    ctx.fillRect(24, 10, 6, 10);
+    // Head block
+    ctx.fillRect(30, 6, 10, 10);
+
+    // Tail (slightly raised)
+    ctx.fillRect(2, 10, 6, 4);
+
+    // --- White markings (chest, blaze, muzzle, tail tip) ---
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(36, 10, 6, 6);
-    ctx.fillRect(32, 4, 4, 10);
+    // Chest / ruff
+    ctx.fillRect(10, 14, 8, 8);
+    // Belly highlight
+    ctx.fillRect(16, 18, 8, 4);
+    // Forehead blaze
+    ctx.fillRect(33, 6, 3, 8);
+    // Muzzle
+    ctx.fillRect(38, 11, 6, 5);
+    // Tail tip
+    ctx.fillRect(2, 10, 3, 3);
+
+    // --- Rust / tan markings for Bernese tri-color pattern ---
+    ctx.fillStyle = "#c47a3c"; // Warm rust
+    // Eyebrows
+    ctx.fillRect(31, 9, 3, 2);
+    ctx.fillRect(36, 9, 3, 2);
+    // Cheeks
+    ctx.fillRect(30, 13, 3, 4);
+    ctx.fillRect(40, 13, 3, 4);
+    // Leg tan sections
+    // Front leg
+    ctx.fillRect(12, 26, 5, 4);
+    // Hind leg
+    ctx.fillRect(26, 26, 5, 4);
+
+    // --- Legs: black upper, tan mid, white paws ---
     ctx.fillStyle = "#111";
-    ctx.fillRect(28, 4, 6, 6);
+    // Front leg upper
+    ctx.fillRect(12, 22, 5, 4);
+    // Hind leg upper
+    ctx.fillRect(26, 22, 5, 4);
+
+    // White paws
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(8, 14, 10, 10);
-    ctx.fillStyle = "#8d6e63";
-    ctx.fillRect(8, 24, 6, 8);
-    ctx.fillRect(30, 24, 6, 8);
+    ctx.fillRect(12, 28, 5, 2);
+    ctx.fillRect(26, 28, 5, 2);
+
+    // --- Face details (eye, nose, ear) ---
+    // Ear hanging over side of head
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(30, 6, 4, 6);
+
+    // Eye on the white blaze so the face reads clearly
     ctx.fillStyle = "#111";
-    ctx.fillRect(0, 10, 8, 4);
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 10, 3, 3);
+    ctx.fillRect(35, 10, 2, 2);
+
+    // Nose at the tip of the muzzle
+    ctx.fillRect(41, 12, 2, 2);
+
+    // Slight shadow along belly to sharpen silhouette
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(6, 22, 20, 2);
   }),
   donkey: createSprite(32, 32, (ctx) => {
     // Grey Donkey
