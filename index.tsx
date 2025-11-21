@@ -1691,7 +1691,7 @@ function Game() {
             fontSize: "18px",
           }}
         >
-          {uiState.isNight ? "🌙" : "☀️"}
+          {uiState.isNight ? "⏾" : "☀︎"}
         </button>
         {uiState.menuOpen && (
           <div
