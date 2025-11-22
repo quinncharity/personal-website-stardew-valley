@@ -1,4 +1,5 @@
 import React from "react";
+import PixelArtHeadshot from "@/Pixel_Art_Headshot.png";
 import { InteractableType } from "@/game/types";
 
 interface GameModalProps {
@@ -17,8 +18,8 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: "80%",
-        maxWidth: "600px",
+        width: "85%",
+        maxWidth: "720px",
         maxHeight: "80vh",
         overflowY: "auto",
         backgroundColor: isNight ? "#263238" : "#ffecb3",
@@ -58,26 +59,53 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
           >
             About Me
           </h2>
-          <p style={{ fontSize: "1.2rem" }}>
-            Hi! I'm Charity Quinn, a technical problem-solver driven by
-            curiosity. I build tools, learn new systems, and write about what I
-            discover.
-            <br />
-            <br />
-            I'm an AI Solutions Engineer in NYC working at Retool, where I help
-            companies ship internal tools, AI workflows, and cloud deployments
-            quickly and securely. Before that, I was a Software Engineer at
-            Capital One, building automation platforms, internal applications,
-            and large-scale AWS infrastructure.
-            <br />
-            <br />
-            I'm currently pursuing my M.S. in Computer Science at Georgia Tech
-            and documenting what I'm learning along the way. I’m writing about
-            my path into AI systems engineering, the lessons from each role, the
-            real problems I see across organizations, how I’d apply LLMs in
-            industrial environments, and the fundamentals of how modern AI
-            systems work under the hood.
-          </p>
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              marginTop: "16px",
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+            }}
+          >
+            <img
+              src={PixelArtHeadshot}
+              alt="Pixel art portrait of Charity Quinn"
+              style={{
+                width: "120px",
+                height: "120px",
+                borderRadius: "4px",
+                border: isNight ? "3px solid #cfd8dc" : "3px solid #3e2723",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                flexShrink: 0,
+              }}
+            />
+            <p
+              style={{
+                fontSize: "1.2rem",
+                margin: 0,
+                lineHeight: 1.4,
+                flex: 1,
+                minWidth: "220px",
+              }}
+            >
+              Hi! I'm Charity Quinn, a technical problem-solver driven by
+              curiosity. I build tools, learn new systems, and write about what
+              I discover.
+              <br />
+              <br />
+              I'm an AI Solutions Engineer in NYC working at Retool, where I
+              help companies ship internal tools, AI workflows, and cloud
+              deployments quickly and securely. Before that, I was a Software
+              Engineer at Capital One, building automation platforms, internal
+              applications, and large-scale AWS infrastructure.
+              <br />
+              <br />
+              I’m writing about my path into AI systems engineering, the lessons
+              from each role, the real problems I see across organizations, how
+              I’d apply LLMs in industrial environments.
+            </p>
+          </div>
         </div>
       )}
 

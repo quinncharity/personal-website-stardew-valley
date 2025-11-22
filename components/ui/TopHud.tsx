@@ -68,7 +68,7 @@ export function TopHud({
             }}
           >
             {[
-              { label: "About", type: "farmHouse" as InteractableType },
+              { label: "About Me", type: "farmHouse" as InteractableType },
               { label: "Resume", type: "redBarn" as InteractableType },
               {
                 label: "Projects",
