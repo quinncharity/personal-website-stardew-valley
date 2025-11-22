@@ -50,7 +50,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
         <div>
           <h2
             style={{
-              borderBottom: "2px solid #3e2723",
+              borderBottom: isNight ? "2px solid #cfd8dc" : "2px solid #3e2723",
               paddingBottom: "10px",
             }}
           >
@@ -71,7 +71,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
         <div>
           <h2
             style={{
-              borderBottom: "2px solid #3e2723",
+              borderBottom: isNight ? "2px solid #cfd8dc" : "2px solid #3e2723",
               paddingBottom: "10px",
             }}
           >
@@ -113,7 +113,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
         <div>
           <h2
             style={{
-              borderBottom: "2px solid #3e2723",
+              borderBottom: isNight ? "2px solid #cfd8dc" : "2px solid #3e2723",
               paddingBottom: "10px",
             }}
           >
@@ -122,9 +122,10 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
           <div style={{ display: "grid", gap: "10px" }}>
             <div
               style={{
-                background: "#fff",
+                background: isNight ? "#37474f" : "#fff",
                 padding: "10px",
-                border: "2px dashed #3e2723",
+                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                color: isNight ? "#eceff1" : "#3e2723",
               }}
             >
               <strong>Farm Portfolio</strong>
@@ -132,9 +133,10 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
             </div>
             <div
               style={{
-                background: "#fff",
+                background: isNight ? "#37474f" : "#fff",
                 padding: "10px",
-                border: "2px dashed #3e2723",
+                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                color: isNight ? "#eceff1" : "#3e2723",
               }}
             >
               <strong>Cloud Scaler</strong>
@@ -142,9 +144,10 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
             </div>
             <div
               style={{
-                background: "#fff",
+                background: isNight ? "#37474f" : "#fff",
                 padding: "10px",
-                border: "2px dashed #3e2723",
+                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                color: isNight ? "#eceff1" : "#3e2723",
               }}
             >
               <strong>Code Viz</strong>
@@ -158,7 +161,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
         <div>
           <h2
             style={{
-              borderBottom: "2px solid #3e2723",
+              borderBottom: isNight ? "2px solid #cfd8dc" : "2px solid #3e2723",
               paddingBottom: "10px",
             }}
           >
@@ -179,9 +182,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               Procedural Generation in React
             </h3>
             <small>Sep 05, 2023</small>
-            <p>
-              How to use HTML5 Canvas with React refs for performance...
-            </p>
+            <p>How to use HTML5 Canvas with React refs for performance...</p>
           </article>
         </div>
       )}
@@ -204,7 +205,8 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               href="#"
               style={{
                 display: "block",
-                color: "#3e2723",
+                color: isNight ? "#ffcc80" : "#3e2723",
+                textDecoration: "underline",
                 marginBottom: "10px",
               }}
             >
@@ -214,7 +216,8 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               href="#"
               style={{
                 display: "block",
-                color: "#3e2723",
+                color: isNight ? "#ffcc80" : "#3e2723",
+                textDecoration: "underline",
                 marginBottom: "10px",
               }}
             >
@@ -224,7 +227,8 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               href="#"
               style={{
                 display: "block",
-                color: "#3e2723",
+                color: isNight ? "#ffcc80" : "#3e2723",
+                textDecoration: "underline",
                 marginBottom: "10px",
               }}
             >
@@ -239,13 +243,9 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
           marginTop: "20px",
           textAlign: "center",
           fontSize: "0.9rem",
-          color: "#5d4037",
+          color: isNight ? "#cfd8dc" : "#5d4037",
         }}
-      >
-        (Press ESC to close)
-      </div>
+      ></div>
     </div>
   );
 }
-
-

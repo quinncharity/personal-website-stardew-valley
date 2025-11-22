@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SCALE, BOUNDS } from "@/game/constants";
-import { Entity, EntityType, Interactable, InteractableType } from "@/game/types";
+import {
+  Entity,
+  EntityType,
+  Interactable,
+  InteractableType,
+  Scenery,
+} from "@/game/types";
 import { Assets } from "@/game/assets";
 import {
   interactables,
@@ -14,6 +20,21 @@ import {
 import { TopHud } from "@/components/ui/TopHud";
 import { GameModal } from "@/components/ui/GameModal";
 import { MobileHint } from "@/components/ui/MobileHint";
+
+const rectsOverlap = (
+  x1: number,
+  y1: number,
+  w1: number,
+  h1: number,
+  x2: number,
+  y2: number,
+  w2: number,
+  h2: number
+) => {
+  return x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
+};
+
+const CORN_RUSTLE_DURATION = 20;
 
 export function Game() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -35,6 +56,13 @@ export function Game() {
       maxLife: number;
     }[],
     wateredCorn: [] as { x: number; y: number; timer: number }[],
+    rustlingCorn: [] as {
+      x: number;
+      y: number;
+      timer: number;
+      phase: number;
+    }[],
+    entityCornContact: {} as { [id: string]: string | null },
     wateringStream: {
       active: false,
       sx: 0,
@@ -80,7 +108,9 @@ export function Game() {
       }
 
       if (e.code === "KeyE" || e.code === "Enter" || e.code === "Space") {
-        const player = gameState.current.entities.find((e) => e.id === "player");
+        const player = gameState.current.entities.find(
+          (e) => e.id === "player"
+        );
         if (player && !uiStateRef.current.modalOpen) {
           const target = checkInteraction(player);
           if (target) {
@@ -374,7 +404,9 @@ export function Game() {
       fishAnim,
       particles,
       wateredCorn,
+      rustlingCorn,
       wateringStream,
+      entityCornContact,
     } = gameState.current;
     const player = entities.find((e) => e.id === "player")!;
     const isNight = uiStateRef.current.isNight;
@@ -467,6 +499,56 @@ export function Game() {
         } else {
           entities[i] = updateAI(entities[i]);
         }
+      }
+    }
+
+    // Corn rustle when animals walk through (trigger on enter only)
+    entities.forEach((e) => {
+      if (e.id === "player") return;
+
+      const ex = e.x;
+      const ey = e.y;
+      const ew = 32;
+      const eh = 32;
+
+      const prevKey = entityCornContact[e.id] ?? null;
+      let currentKey: string | null = null;
+      let currentPos: { x: number; y: number } | null = null;
+
+      for (let i = 0; i < cornField.length; i++) {
+        const pos = cornField[i];
+        if (rectsOverlap(ex, ey, ew, eh, pos.x, pos.y, 32, 32)) {
+          currentKey = `${pos.x},${pos.y}`;
+          currentPos = pos;
+          break;
+        }
+      }
+
+      // Only trigger when entering a new corn tile
+      if (currentKey && currentKey !== prevKey && currentPos) {
+        let entry = rustlingCorn.find(
+          (r) => r.x === currentPos!.x && r.y === currentPos!.y
+        );
+        if (!entry) {
+          rustlingCorn.push({
+            x: currentPos.x,
+            y: currentPos.y,
+            timer: CORN_RUSTLE_DURATION,
+            phase: Math.random() * Math.PI * 2,
+          });
+        } else {
+          entry.timer = CORN_RUSTLE_DURATION;
+        }
+      }
+
+      entityCornContact[e.id] = currentKey;
+    });
+
+    // Decay rustling effect over time
+    for (let i = rustlingCorn.length - 1; i >= 0; i--) {
+      rustlingCorn[i].timer -= 1;
+      if (rustlingCorn[i].timer <= 0) {
+        rustlingCorn.splice(i, 1);
       }
     }
 
@@ -619,6 +701,7 @@ export function Game() {
       particles,
       wateredCorn,
       wateringStream,
+      rustlingCorn,
     } = gameState.current;
 
     ctx.fillStyle = "#567d46"; // Grass base color to match farm
@@ -718,13 +801,25 @@ export function Game() {
         ctx.fillRect(pos.x, pos.y + 20, 32, 12);
       }
 
+      // Rustling wobble when animals walk through the corn
+      const rustle = rustlingCorn.find((r) => r.x === pos.x && r.y === pos.y);
+      let offsetX = 0;
+      let offsetY = 0;
+      if (rustle) {
+        const progress = rustle.timer / CORN_RUSTLE_DURATION; // 1 -> 0
+        const amplitude = 3 * progress;
+        const wave = Math.sin(Date.now() / 80 + rustle.phase);
+        offsetX = wave * amplitude;
+        offsetY = -Math.abs(wave) * (amplitude * 0.4);
+      }
+
       // Corn sprite
-      ctx.drawImage(Assets.corn, pos.x, pos.y);
+      ctx.drawImage(Assets.corn, pos.x + offsetX, pos.y + offsetY);
 
       if (isWatered) {
         // Smaller blue highlight at the stalk base
         ctx.fillStyle = "rgba(129, 212, 250, 0.5)";
-        ctx.fillRect(pos.x + 10, pos.y + 18, 12, 10);
+        ctx.fillRect(pos.x + 10 + offsetX, pos.y + 18 + offsetY, 12, 10);
       }
     });
 
@@ -932,5 +1027,3 @@ export function Game() {
     </div>
   );
 }
-
-
