@@ -449,19 +449,6 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
             >
               LinkedIn
             </a>
-            <a
-              href="https://github.com/quinncharity"
-              target="_blank"
-              rel="noreferrer noopener"
-              style={{
-                display: "block",
-                color: isNight ? "#ffcc80" : "#3e2723",
-                textDecoration: "underline",
-                marginBottom: "10px",
-              }}
-            >
-              GitHub
-            </a>
           </div>
         </div>
       )}
