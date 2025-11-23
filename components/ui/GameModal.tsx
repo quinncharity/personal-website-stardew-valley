@@ -312,19 +312,28 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
                 color: isNight ? "#eceff1" : "#3e2723",
               }}
             >
-              <strong>Cloud Scaler</strong>
-              <p>Automated scaling solution for k8s clusters.</p>
-            </div>
-            <div
-              style={{
-                background: isNight ? "#37474f" : "#fff",
-                padding: "10px",
-                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
-                color: isNight ? "#eceff1" : "#3e2723",
-              }}
-            >
-              <strong>Code Viz</strong>
-              <p>Visualizing git history in 3D.</p>
+              <strong>Policy-Aware LLM Workflow Orchestrator</strong>
+              <p>
+                A lightweight orchestration engine that routes user requests
+                through an intake agent, applies enforceable policy checks, and
+                executes tasks with Claude using structured JSON output. The
+                system demonstrates how to build safe, auditable, multi-agent
+                LLM workflows similar to those used in enterprise environments.
+              </p>
+              <a
+                href="https://github.com/quinncharity/Orchestrator"
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{
+                  display: "inline-block",
+                  marginTop: "4px",
+                  color: isNight ? "#ffcc80" : "#3e2723",
+                  textDecoration: "underline",
+                  fontSize: "0.95rem",
+                }}
+              >
+                View source on GitHub
+              </a>
             </div>
           </div>
         </div>
