@@ -447,8 +447,15 @@ export function BlogDiaryEntry1() {
           <p>
             I am currently working through{" "}
             <em>
-              AI Systems Performance: End-to-End Infrastructure and Platforms
-              for Training Large AI Models
+              <a
+                href="https://www.oreilly.com/library/view/ai-systems-performance/9798341627772/"
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{ color: "#1d4ed8", textDecoration: "underline" }}
+              >
+                AI Systems Performance: End-to-End Infrastructure and Platforms
+                for Training Large AI Models
+              </a>
             </em>{" "}
             and pairing this with what I learned in my M.S. program at Georgia
             Tech, where I built financial LLM models, explored bias mitigation
