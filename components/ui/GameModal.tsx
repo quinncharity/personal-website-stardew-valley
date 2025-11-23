@@ -289,6 +289,20 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
             >
               <strong>Farm Portfolio</strong>
               <p>A gamified react portfolio inspired by RPGs.</p>
+              <a
+                href="https://github.com/quinncharity/personal-website-stardew-valley"
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{
+                  display: "inline-block",
+                  marginTop: "4px",
+                  color: isNight ? "#ffcc80" : "#3e2723",
+                  textDecoration: "underline",
+                  fontSize: "0.95rem",
+                }}
+              >
+                View source on GitHub
+              </a>
             </div>
             <div
               style={{
