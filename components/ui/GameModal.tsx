@@ -8,6 +8,16 @@ interface GameModalProps {
   onClose: () => void;
 }
 
+const blogPosts = [
+  {
+    slug: "/blog/diary-of-a-solutions-engineer-entry-1",
+    title: "Diary of a Solutions Engineer – Entry #1",
+    date: "November 23, 2025",
+    description:
+      "From growing up as the youngest of nine in rural Pennsylvania to building AI systems, this entry traces how I moved from chemical engineering into AI solutions engineering.",
+  },
+];
+
 export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
   if (!modalOpen) return null;
 
@@ -94,16 +104,19 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               I discover.
               <br />
               <br />
-              I'm an AI Solutions Engineer in NYC working at Retool, where I
-              help companies ship internal tools, AI workflows, and cloud
-              deployments quickly and securely. Before that, I was a Software
-              Engineer at Capital One, building automation platforms, internal
-              applications, and large-scale AWS infrastructure.
+              I'm an AI Solutions Engineer in NYC working at Retool, an
+              enterprise app-generation layer used to build and manage internal
+              tools. I help companies design and deploy AI workflows, internal
+              applications, and cloud-backed systems quickly and securely.
+              Before that, I worked as a Software Engineer at Capital One
+              building automation platforms, internal applications, and
+              large-scale cloud infrastructure.
               <br />
-              <br />
-              I’m writing about my path into AI systems engineering, the lessons
-              from each role, the real problems I see across organizations, how
-              I’d apply LLMs in industrial environments.
+              <br />I have a B.S. in Chemical Engineering from Penn State and an
+              M.S. in Computer Science from Georgia Tech. I write about the
+              lessons I've learned across roles, the patterns I see in
+              real-world engineering challenges, and how AI can be applied in
+              industrial environments.
             </p>
           </div>
         </div>
@@ -297,23 +310,65 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
           >
             Blog
           </h2>
-          <article style={{ marginBottom: "15px" }}>
-            <h3 style={{ margin: "0 0 5px 0" }}>
-              Why I moved to Solutions Engineering
-            </h3>
-            <small>Oct 12, 2023</small>
-            <p>
-              Coding is great, but solving customer problems with code is even
-              better...
-            </p>
-          </article>
-          <article>
-            <h3 style={{ margin: "0 0 5px 0" }}>
-              Procedural Generation in React
-            </h3>
-            <small>Sep 05, 2023</small>
-            <p>How to use HTML5 Canvas with React refs for performance...</p>
-          </article>
+          <div style={{ marginTop: "12px", display: "grid", gap: "12px" }}>
+            {blogPosts.map((post) => (
+              <article
+                key={post.slug}
+                style={{
+                  padding: "10px 12px",
+                  background: isNight ? "#37474f" : "#fff8e1",
+                  border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                  borderRadius: "6px",
+                }}
+              >
+                <h3 style={{ margin: "0 0 4px 0" }}>
+                  <a
+                    href={post.slug}
+                    style={{
+                      color: isNight ? "#ffcc80" : "#3e2723",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    {post.title}
+                  </a>
+                </h3>
+                <small
+                  style={{
+                    display: "block",
+                    marginBottom: "6px",
+                    color: isNight ? "#cfd8dc" : "#5d4037",
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  {post.date}
+                </small>
+                <p
+                  style={{
+                    margin: "0 0 6px 0",
+                    fontSize: "1.05rem",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {post.description}
+                </p>
+                <a
+                  href={post.slug}
+                  style={{
+                    display: "inline-block",
+                    marginTop: "2px",
+                    padding: "2px 6px",
+                    borderRadius: "4px",
+                    border: `1px solid ${isNight ? "#ffcc80" : "#5d4037"}`,
+                    color: isNight ? "#ffcc80" : "#5d4037",
+                    textDecoration: "none",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  Read full entry →
+                </a>
+              </article>
+            ))}
+          </div>
         </div>
       )}
 
