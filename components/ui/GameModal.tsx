@@ -10,9 +10,25 @@ interface GameModalProps {
 
 const blogPosts = [
   {
-    slug: "/blog/diary-of-a-solutions-engineer-entry-1",
-    title: "Diary of a Solutions Engineer – Entry #1",
+    slug: "/blog/where-ai-will-drive-the-biggest-gains-in-unexpected-industrial-sectors",
+    title:
+      "Where AI Will Drive the Biggest Gains in Unexpected Industrial Sectors",
     date: "November 23, 2025",
+    description:
+      "Why some of the biggest AI gains may come from chemical production, manufacturing, and oil and gas—industries that are data rich but operationally constrained.",
+  },
+  {
+    slug: "/blog/everyone-wants-ai-but-few-know-what-it-actually-takes",
+    title: "Everyone Wants AI, but Few Know What It Actually Takes",
+    date: "November 21, 2025",
+    description:
+      "Patterns I keep seeing as companies adopt AI. From data foundations and access control, to architecture, costs, shadow AI, and the gap between enthusiasm and readiness.",
+  },
+  {
+    slug: "/blog/diary-of-a-solutions-engineer-entry-1",
+    title:
+      "Diary of a Solutions Engineer – From Chemical Engineering to AI Solutions Engineering",
+    date: "November 19, 2025",
     description:
       "From growing up as the youngest of nine in rural Pennsylvania to building AI systems, this entry traces how I moved from chemical engineering into AI solutions engineering.",
   },

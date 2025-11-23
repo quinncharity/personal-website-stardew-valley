@@ -67,17 +67,6 @@ export function BlogDiaryEntry1() {
         </div>
 
         <header style={{ marginBottom: "24px" }}>
-          <p
-            style={{
-              textTransform: "uppercase",
-              letterSpacing: "0.12em",
-              fontSize: "0.8rem",
-              color: "#6b7280",
-              margin: 0,
-            }}
-          >
-            Entry #1
-          </p>
           <h1
             style={{
               fontSize: "2.35rem",
@@ -88,7 +77,8 @@ export function BlogDiaryEntry1() {
               fontWeight: 650,
             }}
           >
-            Diary of a Solutions Engineer – Entry #1
+            Diary of a Solutions Engineer – From Chemical Engineering to AI
+            Solutions Engineering
           </h1>
           <p
             style={{
@@ -486,5 +476,3 @@ export function BlogDiaryEntry1() {
     </div>
   );
 }
-
-
