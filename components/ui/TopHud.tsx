@@ -16,18 +16,22 @@ export function TopHud({
   onToggleNight,
   onSelectModal,
 }: TopHudProps) {
+  const isMobileViewport =
+    typeof window !== "undefined" && window.innerWidth <= 480;
+
   return (
     <div
       data-ui-element="true"
       style={{
         position: "absolute",
-        top: "16px",
-        left: "16px",
+        top: isMobileViewport ? "12px" : "16px",
+        left: isMobileViewport ? "12px" : "16px",
         zIndex: 120,
         fontFamily: "'VT323', monospace",
         display: "flex",
-        gap: "8px",
+        gap: isMobileViewport ? "6px" : "8px",
         alignItems: "flex-start",
+        flexWrap: "wrap",
       }}
     >
       {/* Menu button with dropdown directly underneath */}

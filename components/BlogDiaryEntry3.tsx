@@ -1,11 +1,17 @@
 import React from "react";
 
 export function BlogDiaryEntry3() {
+  const isMobile = typeof window !== "undefined" && window.innerWidth <= 480;
+
+  const outerPadding = isMobile ? "24px 12px 48px" : "32px 16px 64px";
+  const cardPadding = isMobile ? "24px 16px 32px" : "32px 24px 40px";
+  const titleFontSize = isMobile ? "1.9rem" : "2.35rem";
+
   return (
     <div
       style={{
         minHeight: "100vh",
-        padding: "32px 16px 64px",
+        padding: outerPadding,
         background:
           "radial-gradient(circle at top, #ffffff 0, #f5f5f7 45%, #eceff1 100%)",
         color: "#111827",
@@ -19,7 +25,7 @@ export function BlogDiaryEntry3() {
           borderRadius: "16px",
           boxShadow:
             "0 18px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(148, 163, 184, 0.3)",
-          padding: "32px 24px 40px",
+          padding: cardPadding,
           fontFamily:
             '-apple-system, BlinkMacSystemFont, system-ui, "SF Pro Text", "Segoe UI", sans-serif',
         }}
@@ -31,6 +37,7 @@ export function BlogDiaryEntry3() {
             alignItems: "center",
             gap: "12px",
             marginBottom: "24px",
+            flexWrap: "wrap",
           }}
         >
           <a
@@ -69,7 +76,7 @@ export function BlogDiaryEntry3() {
         <header style={{ marginBottom: "24px" }}>
           <h1
             style={{
-              fontSize: "2.35rem",
+              fontSize: titleFontSize,
               lineHeight: 1.15,
               margin: "6px 0 10px",
               letterSpacing: "-0.03em",

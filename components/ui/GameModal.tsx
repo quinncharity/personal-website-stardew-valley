@@ -37,6 +37,9 @@ const blogPosts = [
 export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
   if (!modalOpen) return null;
 
+  const isMobileViewport =
+    typeof window !== "undefined" && window.innerWidth <= 480;
+
   return (
     <div
       style={{
@@ -44,14 +47,14 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        width: "85%",
+        width: isMobileViewport ? "92%" : "85%",
         maxWidth: "720px",
-        maxHeight: "80vh",
+        maxHeight: isMobileViewport ? "85vh" : "80vh",
         overflowY: "auto",
         backgroundColor: isNight ? "#263238" : "#ffecb3",
         border: isNight ? "8px solid #90a4ae" : "8px solid #5d4037",
         borderRadius: "10px",
-        padding: "20px",
+        padding: isMobileViewport ? "16px" : "20px",
         boxShadow: "0 10px 20px rgba(0,0,0,0.5)",
         fontFamily: "'VT323', monospace",
         color: isNight ? "#eceff1" : "#3e2723",
