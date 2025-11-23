@@ -132,7 +132,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               M.S. in Computer Science from Georgia Tech. I write about the
               lessons I've learned across roles, the patterns I see in
               real-world engineering challenges, and how AI can be applied in
-              industrial environments.
+              enterprise environments.
             </p>
           </div>
         </div>
