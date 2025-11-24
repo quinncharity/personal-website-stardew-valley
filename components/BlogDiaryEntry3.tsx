@@ -160,7 +160,7 @@ export function BlogDiaryEntry3() {
             Chemical plants, refineries, food processing facilities, and
             large-scale manufacturing lines contain dense networks of
             instrumentation. It is common for a plant to collect years,
-            sometimes decades, of high-frequency sensor data.¹ Typical sensors
+            sometimes decades, of high-frequency sensor data. Typical sensors
             include:
           </p>
 
@@ -176,7 +176,7 @@ export function BlogDiaryEntry3() {
 
           <p>
             Much of this data ends up in historian databases and SCADA systems
-            that log thousands of tags every second.¹ Engineers routinely export
+            that log thousands of tags every second. Engineers routinely export
             this information into spreadsheets, clean it manually, and piece
             together trend analyses under time pressure. I have done this myself
             repeatedly and it is slow and frustrating.
@@ -209,7 +209,7 @@ export function BlogDiaryEntry3() {
             with nonlinear subsurface interactions. AI helped uncover patterns
             that more rigid models missed. This mirrors what is happening across
             the industry, where operators increasingly explore AI-assisted
-            reservoir characterization and drilling optimization.³
+            reservoir characterization and drilling optimization.
           </p>
 
           <h2
@@ -251,7 +251,7 @@ export function BlogDiaryEntry3() {
           <p>
             A 2025 survey found that 49 percent of EHS functions plan to invest
             in AI within the next 12 months, while only 28 percent currently use
-            it, highlighting a large gap between intent and deployment.⁴⁵
+            it, highlighting a large gap between intent and deployment.
           </p>
 
           <h2
@@ -291,7 +291,7 @@ export function BlogDiaryEntry3() {
             A 2025 industry survey reported that nearly one third of
             manufacturers have deployed AI or ML at the facility or network
             level, driven primarily by optimization and predictive maintenance
-            use cases.⁶
+            use cases.
           </p>
 
           <h2
@@ -330,7 +330,7 @@ export function BlogDiaryEntry3() {
             Even the engineering tools used for simulation reflect this legacy
             constraint. Aspen Plus, for example, is one of the most widely used
             process simulators in the chemical and refining industries and has
-            more than 40 years of development behind it.⁷ It is extremely
+            more than 40 years of development behind it. It is extremely
             powerful and data rich, but its architecture and integration model
             predate modern interoperability standards. Many workflows depend on
             file-based transfers, manual iteration, or fragile intermediate
