@@ -131,7 +131,7 @@ export function BlogDiaryEntry3() {
             They also generate enormous amounts of real-world sensor data.
             Studies confirm that modern industrial operations produce extremely
             large volumes of time-series data tied to process conditions and
-            equipment health.¹²
+            equipment health.
           </p>
 
           <p>
