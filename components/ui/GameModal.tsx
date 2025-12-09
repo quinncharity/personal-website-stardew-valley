@@ -338,6 +338,50 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
                 View source on GitHub
               </a>
             </div>
+            <div
+              style={{
+                background: isNight ? "#37474f" : "#fff",
+                padding: "10px",
+                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                color: isNight ? "#eceff1" : "#3e2723",
+              }}
+            >
+              <strong>PawStrips – Dog Comic Generator</strong>
+              <p>
+                A playful dog comic generator that turns prompts into comic
+                strips. Built with Next.js using v0.app and deployed on Vercel.
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                <a
+                  href="https://pawstrips.vercel.app"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  style={{
+                    display: "inline-block",
+                    marginTop: "4px",
+                    color: isNight ? "#ffcc80" : "#3e2723",
+                    textDecoration: "underline",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  View live site
+                </a>
+                <a
+                  href="https://github.com/quinncharity/pawstrips"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  style={{
+                    display: "inline-block",
+                    marginTop: "4px",
+                    color: isNight ? "#ffcc80" : "#3e2723",
+                    textDecoration: "underline",
+                    fontSize: "0.95rem",
+                  }}
+                >
+                  View source on GitHub
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       )}
