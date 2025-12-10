@@ -382,6 +382,35 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
                 </a>
               </div>
             </div>
+            <div
+              style={{
+                background: isNight ? "#37474f" : "#fff",
+                padding: "10px",
+                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                color: isNight ? "#eceff1" : "#3e2723",
+              }}
+            >
+              <strong>ML Trading on Databricks</strong>
+              <p>
+                A personal research project exploring end-to-end ML-driven
+                trading workflows on Databricks—from data ingestion and feature
+                engineering to model training and backtesting.
+              </p>
+              <a
+                href="https://github.com/quinncharity/ml-trading-databricks"
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{
+                  display: "inline-block",
+                  marginTop: "4px",
+                  color: isNight ? "#ffcc80" : "#3e2723",
+                  textDecoration: "underline",
+                  fontSize: "0.95rem",
+                }}
+              >
+                View source on GitHub
+              </a>
+            </div>
           </div>
         </div>
       )}
