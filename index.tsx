@@ -4,6 +4,7 @@ import { Game } from "@/components/Game";
 import { BlogDiaryEntry1 } from "@/components/BlogDiaryEntry1";
 import { BlogDiaryEntry2 } from "@/components/BlogDiaryEntry2";
 import { BlogDiaryEntry3 } from "@/components/BlogDiaryEntry3";
+import { Analytics } from "@vercel/analytics/next"
 
 const normalizePath = (path: string) =>
   path.length > 1 && path.endsWith("/") ? path.slice(0, -1) : path;
