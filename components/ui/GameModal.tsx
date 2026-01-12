@@ -172,12 +172,12 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               </div>
               <ul>
                 <li>
-                  Ranked #1 SE Globally in Q4 2025 – Finished the quarter as the
+                  Ranked #1 SE Globally in Q4 2025: Finished the quarter as the
                   top Solutions Engineer across all regions and segments in
                   total ARR.
                 </li>
                 <li>
-                  Ranked #1 MMK SE in Q3 2025 – Finished the quarter as the top
+                  Ranked #1 MMK SE in Q3 2025: Finished the quarter as the top
                   mid market Solutions Engineer in total ARR.
                 </li>
                 <li>
