@@ -130,9 +130,7 @@ export function BlogDiaryEntry4() {
           <p style={{ marginTop: 0 }}>
             Lately, I have been thinking a lot about the &quot;cognitive event
             horizon&quot; we are crossing in software engineering. Honestly, I think
-            most people in tech feel it too. The basic unit of labor is moving
-            from the syntactic manipulation of code to the semantic orchestration
-            of reasoning.
+            most people in tech feel it too. The job is shifting from writing lines of code to designing the logic behind them.
           </p>
 
           <p>
