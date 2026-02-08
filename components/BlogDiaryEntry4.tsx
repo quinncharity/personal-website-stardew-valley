@@ -128,13 +128,12 @@ export function BlogDiaryEntry4() {
           </h2>
 
           <p style={{ marginTop: 0 }}>
-            Lately, I have been thinking a lot about the &quot;cognitive event
-            horizon&quot; we are crossing in software engineering. Honestly, I think
+          Lately, I have been thinking a lot about the major shift happening in software engineering. Honestly, I think
             most people in tech feel it too. The job is shifting from writing lines of code to designing the logic behind them.
           </p>
 
           <p>
-            For decades, the main bottleneck was our human capacity to translate
+            For decades, the main bottleneck was our capacity to translate
             abstract logic into rigid syntax. But with tools like Claude Code,
             GitHub Copilot, Cursor, and Devin, this bottleneck has dissolved. It
             has evolved from the text prediction of 2023 to the autonomous
@@ -142,15 +141,14 @@ export function BlogDiaryEntry4() {
           </p>
 
           <p>
-            In this post, I want to explore the stratification I see in the
-            market, which I believe has splintered into three distinct layers of
-            &quot;cognitive posture&quot;. On one end, we have Cursor, which dominates
+            In this post, I want to explore how the market has divided into three distinct
+            ways developers interact with AI tools. On one end, we have Cursor, which dominates
             the &quot;Inner Loop&quot; with a &quot;flow first&quot; IDE approach focused on
             augmentation. On the other, we have Cognition AI, which prioritizes a
             &quot;reasoning first&quot; autonomous approach for the &quot;Outer Loop&quot; of
             delegation. But between them lies a critical emerging middle ground,
-            represented by Claude Code, that bridges these worlds by bringing
-            agentic reasoning directly into the local command line. While
+            represented by Claude Code, that bridges these worlds by
+            bringing autonomous AI directly into your command line. While
             integrated tools like Cursor currently rule the editor, I believe the
             long term value is shifting toward the reasoning engines that can
             dominate the architecture.
@@ -210,9 +208,8 @@ export function BlogDiaryEntry4() {
             Recently, I have noticed intense pressure on the middle layer. As
             models like GPT-5.3 and Claude Opus 4.6 gain massive context windows,
             the &quot;chat with your code&quot; feature set is becoming commoditized.
-            Cursor has defended this ground brilliantly by building &quot;UX moats&quot;
-            rather than just model moats. By indexing codebases locally and using
-            speculative execution, they created a &quot;snappiness&quot; which many
+            Cursor has stayed competitive by focusing on a great user experience rather than just having a better AI model. By indexing codebases locally and
+            predicting your next move, they created a snappiness which many
             developers feel keeps them in a flow state while coding.
           </p>
 
