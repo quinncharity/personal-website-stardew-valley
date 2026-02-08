@@ -162,25 +162,25 @@ export function BlogDiaryEntry4() {
 
           <ul>
             <li>
-              <strong>Tier 1: Autocomplete.</strong> This is the &quot;prediction&quot;
+              <strong>Tier 1: Autocomplete.</strong> This is the prediction
               layer, dominated by tools like GitHub Copilot. It is reactive and
               focuses on reducing keystrokes. While it is a great tool, it is not the future.
             </li>
             <li>
               <strong>Tier 2: AI Native IDEs.</strong> This is about
-              &quot;augmentation&quot; and maintaining flow. Tools like Cursor and
+              augmentationand maintaining flow. Tools like Cursor and
               Windsurf (before the acquisition) fit here. They allow humans and
               AI to share the wheel.
             </li>
             <li>
               <strong>Tier 2.5: The Agentic Command Line.</strong> This is the
-              &quot;hybrid&quot; layer, best represented by Claude Code. It brings the reasoning of an agent directly into the
+             hybrid layer, best represented by Claude Code. It brings the reasoning of an agent directly into the
               developer&apos;s local terminal. Unlike Cursor, which predicts what you
               want to type, Claude Code plans what you want to do. It executes
               commands, runs tests, and edits files across the entire project,
               but it does so right in front of you, waiting for your
-              &quot;go ahead&quot; before committing changes. It&apos;s not quite a
-              &quot;simulated employee&quot; like Devin, but it&apos;s far more than a text
+              &quot;go ahead &quot; before committing changes. It&apos;s not quite a
+              simulated employee like Devin, but it&apos;s far more than a text
               editor.
             </li>
             <li>
@@ -215,7 +215,7 @@ export function BlogDiaryEntry4() {
               color: "#111827",
             }}
           >
-            The Rise of the &quot;Architect&quot; Persona
+            The Rise of the Architect Persona
           </h2>
 
           <p>
@@ -231,8 +231,8 @@ export function BlogDiaryEntry4() {
           <p>
             This also brings up the concept of &quot;Trust Debt,&quot; which is the
             liability we incur when AI generates code we don&apos;t fully understand,
-            the inspiration for my current pet project I am calling a &quot;semantic
-            zoom&quot; (coming soon! 🥳). Unlike a junior developer who might accept
+            the inspiration for my current pet project I am calling a &quot;Semantic
+            Zoom&quot; (coming soon! 🥳). Unlike a junior developer who might accept
             AI output because it looks right, more seasoned developers need tools
             that provide audit trails and reasoning traces.
           </p>
