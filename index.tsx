@@ -30,7 +30,9 @@ const isDiaryEntry4 = currentPath === routes.diaryEntry4;
 // Toggle global page mode (game vs. blog) to adjust base styling
 document.body.classList.remove("game-mode", "blog-mode");
 document.body.classList.add(
-  isDiaryEntry1 || isDiaryEntry2 || isDiaryEntry3 || isDiaryEntry4 ? "blog-mode" : "game-mode"
+  isDiaryEntry1 || isDiaryEntry2 || isDiaryEntry3 || isDiaryEntry4
+    ? "blog-mode"
+    : "game-mode"
 );
 
 const root = createRoot(document.getElementById("root")!);

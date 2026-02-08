@@ -147,14 +147,14 @@ export function BlogDiaryEntry4() {
             In this post, I want to explore the stratification I see in the
             market, which I believe has splintered into three distinct layers of
             &quot;cognitive posture&quot;. On one end, we have Cursor, which dominates
-            the &quot;Inner Loop&quot; with a &quot;flow-first&quot; IDE approach focused on
+            the &quot;Inner Loop&quot; with a &quot;flow first&quot; IDE approach focused on
             augmentation. On the other, we have Cognition AI, which prioritizes a
-            &quot;reasoning-first&quot; autonomous approach for the &quot;Outer Loop&quot; of
+            &quot;reasoning first&quot; autonomous approach for the &quot;Outer Loop&quot; of
             delegation. But between them lies a critical emerging middle ground,
             represented by Claude Code, that bridges these worlds by bringing
             agentic reasoning directly into the local command line. While
             integrated tools like Cursor currently rule the editor, I believe the
-            long-term value is shifting toward the reasoning engines that can
+            long term value is shifting toward the reasoning engines that can
             dominate the architecture.
           </p>
 
@@ -184,7 +184,7 @@ export function BlogDiaryEntry4() {
               focuses on reducing keystrokes. While it is a great tool, it is not the future.
             </li>
             <li>
-              <strong>Tier 2: AI-Native IDEs.</strong> This is about
+              <strong>Tier 2: AI Native IDEs.</strong> This is about
               &quot;augmentation&quot; and maintaining flow. Tools like Cursor and
               Windsurf (before the acquisition) fit here. They allow humans and
               AI to share the wheel.
@@ -197,7 +197,7 @@ export function BlogDiaryEntry4() {
               want to type, Claude Code plans what you want to do. It executes
               commands, runs tests, and edits files across the entire project,
               but it does so right in front of you, waiting for your
-              &quot;go-ahead&quot; before committing changes. It&apos;s not quite a
+              &quot;go ahead&quot; before committing changes. It&apos;s not quite a
               &quot;simulated employee&quot; like Devin, but it&apos;s far more than a text
               editor.
             </li>
@@ -274,9 +274,9 @@ export function BlogDiaryEntry4() {
 
           <p>
             There is a cultural tension here between &quot;Vibe Coding&quot; and
-            &quot;AI-Assisted Engineering&quot;. Vibe coding is fun for prototypes, but
+            &quot;AI Assisted Engineering&quot;. Vibe coding is fun for prototypes, but
             it often leads to unmaintainable &quot;architectural spaghetti&quot;.
-            AI-Assisted Engineering, on the other hand, uses AI as a force
+            AI Assisted Engineering, on the other hand, uses AI as a force
             multiplier within a rigid framework. This is where I find Devin
             shines. It forces a &quot;Plan to Execute&quot; cadence. It creates a plan,
             asks for approval, executes it, and verifies the output.
@@ -368,7 +368,7 @@ export function BlogDiaryEntry4() {
           <p>
             Cognition&apos;s strategy reminds me of Anthropic&apos;s quiet but deliberate
             release of Claude Code. While OpenAI chases ubiquity with a
-            &quot;product-first&quot; mindset, Anthropic and Cognition share a &quot;research
+            &quot;product first&quot; mindset, Anthropic and Cognition share a &quot;research
             first&quot; ethos that prioritizes safety and correctness that sets them
             up to win the market in the long term.
           </p>
@@ -377,14 +377,14 @@ export function BlogDiaryEntry4() {
             Claude Code is the spiritual counterweight to Devin. Where Devin is a
             &quot;Remote Worker&quot; living in a cloud sandbox, Claude Code is a &quot;Power
             Tool&quot; living in your local shell. It is the commoditization of the
-            agent, bringing high-level reasoning capabilities (System 2) down to
+            agent, bringing high level reasoning capabilities (System 2) down to
             the metal of your local machine.
           </p>
 
           <p>
             By forcing the model to &quot;think&quot; and &quot;plan&quot; visibly in the
             terminal, Anthropic is betting that for complex engineering tasks,
-            developers want a co-pilot that asks for permission, not forgiveness.
+            developers want a copilot that asks for permission, not forgiveness.
             It bridges the gap between the &quot;Inner Loop&quot; of local development
             and the &quot;Outer Loop&quot; of agentic delegation.
           </p>
@@ -444,15 +444,15 @@ export function BlogDiaryEntry4() {
           <ul>
             <li>
               <strong>
-                Vibe Coding is Not the Same as AI-Assisted Engineering.
+                Vibe Coding is Not the Same as AI Assisted Engineering.
               </strong>
               <br />
               Source: Medium (Addy Osmani)
               <br />
               Key Insight: Defines the &quot;Trust Debt&quot; incurred when developers
-              accept AI-generated code without verification and contrasts
-              &quot;Vibe Coding&quot; (speed-first) with &quot;AI-Assisted Engineering&quot;
-              (rigor-first).
+              accept AI generated code without verification and contrasts
+              &quot;Vibe Coding&quot; (speed first) with &quot;AI Assisted Engineering&quot;
+              (rigor first).
               <br />
               <a
                 href="https://medium.com/@addyosmani/vibe-coding-is-not-the-same-as-ai-assisted-engineering-3f81088d5b98"
