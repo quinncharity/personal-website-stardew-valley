@@ -145,7 +145,7 @@ export function BlogDiaryEntry4() {
 
           <p>
             In this post, I want to explore the stratification I see in the
-            market, which has splintered into three distinct layers of
+            market, which I believe has splintered into three distinct layers of
             &quot;cognitive posture&quot;. On one end, we have Cursor, which dominates
             the &quot;Inner Loop&quot; with a &quot;flow-first&quot; IDE approach focused on
             augmentation. On the other, we have Cognition AI, which prioritizes a
@@ -181,7 +181,7 @@ export function BlogDiaryEntry4() {
             <li>
               <strong>Tier 1: Autocomplete.</strong> This is the &quot;prediction&quot;
               layer, dominated by tools like GitHub Copilot. It is reactive and
-              focuses on reducing keystrokes.
+              focuses on reducing keystrokes. While it is a great tool, it is not the future.
             </li>
             <li>
               <strong>Tier 2: AI-Native IDEs.</strong> This is about
@@ -204,7 +204,7 @@ export function BlogDiaryEntry4() {
             <li>
               <strong>Tier 3: Autonomous Agents.</strong> This is the
               &quot;delegation&quot; layer. Tools like Devin focus on asynchronous
-              execution and reasoning over long periods.
+              execution and reasoning over long periods. While it has not yet gained as much traction as the other two layers, I believe it is setting the stage for the next generation of tools.
             </li>
           </ul>
 
@@ -268,7 +268,7 @@ export function BlogDiaryEntry4() {
             designed for scrutiny. It exposes its &quot;thinking&quot; process in the
             terminal, verbose logs of its reasoning, file exploration, and test
             planning, before it writes a single line of code. For the Architect,
-            this visibility is a feature, not a bug. It allows us to audit the
+            this visibility is a feature, not a bug. It allows for a full audit of the
             agent&apos;s logic before we incur the trust debt of its output.
           </p>
 
@@ -303,7 +303,7 @@ export function BlogDiaryEntry4() {
 
           <p>
             Devin represents the first true implementation of autonomous
-            reliability. It utilizes &quot;System 2&quot; thinking—a deliberate,
+            reliability. It utilizes &quot;System 2&quot; thinking, a deliberate,
             thoughtful process that mirrors senior engineering work. Instead of
             blindly rushing forward, Devin uses its &quot;DeepWiki&quot; system to build
             a comprehensive mental model of the codebase before acting. It plans,
