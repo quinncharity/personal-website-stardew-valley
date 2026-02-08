@@ -280,7 +280,7 @@ export function BlogDiaryEntry4() {
             Devin represents the first true implementation of autonomous
             reliability. It utilizes a deliberate,
             thoughtful process that mirrors senior engineering work. Instead of
-            blindly rushing forward, Devin uses its newly released DeepWiki system to build
+            blindly rushing forward, Devin uses its DeepWiki system to build
             a comprehensive mental model of the codebase before acting. It plans,
             executes, and audits its own work, catching errors that humans often
             miss.
