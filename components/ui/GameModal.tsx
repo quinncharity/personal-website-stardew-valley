@@ -10,6 +10,14 @@ interface GameModalProps {
 
 const blogPosts = [
   {
+    slug: "/blog/the-cognitive-decoupling-why-im-betting-on-reasoning-over-flow-in-ai-coding",
+    title:
+      'The Cognitive Decoupling: Why I\'m Betting on "Reasoning" Over "Flow" in AI Coding',
+    date: "February 8, 2026",
+    description:
+      "Exploring the stratification of AI coding tools—from Cursor's flow-first IDE to Devin's autonomous reasoning—and why the long-term value is shifting toward reasoning engines.",
+  },
+  {
     slug: "/blog/where-ai-will-drive-the-biggest-gains-in-unexpected-industrial-sectors",
     title:
       "Where AI Will Drive the Biggest Gains in Unexpected Industrial Sectors",
