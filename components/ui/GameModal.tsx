@@ -519,7 +519,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
           </p>
           <div style={{ textAlign: "center", marginTop: "20px" }}>
             <a
-              href="mailto:hipplecharity@gmail.com"
+              href="mailto:hi@quinn.charity"
               style={{
                 display: "block",
                 color: isNight ? "#ffcc80" : "#3e2723",
@@ -527,7 +527,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
                 marginBottom: "10px",
               }}
             >
-              hipplecharity@gmail.com
+              hi@quinn.charity
             </a>
             <a
               href="https://www.linkedin.com/in/charity-quinn/"
