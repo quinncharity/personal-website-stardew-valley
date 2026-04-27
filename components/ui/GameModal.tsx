@@ -174,9 +174,40 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
 
             <h3>Experience</h3>
             <div style={{ marginBottom: "10px" }}>
+              <strong>Founding Applied AI Engineer</strong> – Cognition
+              <div>
+                <small>Mar 2026 – Present</small>
+              </div>
+              <ul>
+                <li>
+                  Second hire on a two-person onsite customer program driving
+                  Devin adoption inside Fortune 100 engineering organizations;
+                  partner with account teams to diagnose highest-toil workflows
+                  and convert them into hands-on AI implementation work.
+                </li>
+                <li>
+                  Run 1-2 week onsite workshops using customers&apos; real
+                  engineering backlogs, leading 4-5 pair-coding pods per day
+                  with groups of 6-20 engineers rather than sandboxed demos.
+                </li>
+                <li>
+                  Increased strategic account usage 400-600% above pre-workshop
+                  baselines post-engagement, with lift sustained beyond the
+                  workshop period.
+                </li>
+                <li>
+                  Stand up Centers of Excellence, train internal champions, and
+                  return to strategic accounts to expand adoption across
+                  additional teams so the motion compounds after the onsite
+                  engagement ends.
+                </li>
+              </ul>
+            </div>
+
+            <div style={{ marginBottom: "10px" }}>
               <strong>Solutions Engineer</strong> – Retool
               <div>
-                <small>Jun 2025 – Present</small>
+                <small>Jun 2025 – Mar 2026</small>
               </div>
               <ul>
                 <li>
