@@ -173,7 +173,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               <ul>
                 <li>
                   Drive Devin adoption inside Fortune 100 engineering
-                  organizations by runnung 1-2 week onsite workshops using
+                  organizations by running 1-2 week onsite workshops using
                   customers' real engineering backlogs, leading 4-5 pair-coding
                   pods per day with groups of 6-20 engineers. Partner with
                   account teams to diagnose highest-toil workflows and convert
@@ -328,7 +328,7 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               }}
             >
               <strong>Farm Portfolio</strong>
-              <p>A gamified react portfolio inspired by RPGs.</p>
+              <p>A gamified React portfolio inspired by RPGs.</p>
               <a
                 href="https://github.com/quinncharity/personal-website-stardew-valley"
                 target="_blank"
