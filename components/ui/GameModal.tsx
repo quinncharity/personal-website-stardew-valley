@@ -131,19 +131,11 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               I discover.
               <br />
               <br />
-              I'm an AI Solutions Engineer in NYC working at Retool, an
-              enterprise app-generation layer used to build and manage internal
-              tools. I help companies design and deploy AI workflows, internal
-              applications, and cloud-backed systems quickly and securely.
-              Before that, I worked as a Software Engineer at Capital One
-              building automation platforms, internal applications, and
-              large-scale cloud infrastructure.
-              <br />
-              <br />I have a B.S. in Chemical Engineering from Penn State and an
-              M.S. in Computer Science from Georgia Tech. I write about the
-              lessons I've learned across roles, the patterns I see in
-              real-world engineering challenges, and how AI can be applied in
-              enterprise environments.
+              I'm an Applied AI Engineer in NYC at Cognition, where I help
+              enterprise engineering teams adopt AI agents in real-world
+              development workflows. My work sits at the intersection of
+              software engineering, AI enablement, and customer-facing technical
+              strategy.
             </p>
           </div>
         </div>
@@ -180,15 +172,12 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
               </div>
               <ul>
                 <li>
-                  Second hire on a two-person onsite customer program driving
-                  Devin adoption inside Fortune 100 engineering organizations;
-                  partner with account teams to diagnose highest-toil workflows
-                  and convert them into hands-on AI implementation work.
-                </li>
-                <li>
-                  Run 1-2 week onsite workshops using customers&apos; real
-                  engineering backlogs, leading 4-5 pair-coding pods per day
-                  with groups of 6-20 engineers rather than sandboxed demos.
+                  Drive Devin adoption inside Fortune 100 engineering
+                  organizations by runnung 1-2 week onsite workshops using
+                  customers' real engineering backlogs, leading 4-5 pair-coding
+                  pods per day with groups of 6-20 engineers. Partner with
+                  account teams to diagnose highest-toil workflows and convert
+                  them into hands-on AI implementation work.
                 </li>
                 <li>
                   Increased strategic account usage 400-600% above pre-workshop
