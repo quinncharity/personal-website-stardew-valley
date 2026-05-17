@@ -352,6 +352,36 @@ export function GameModal({ modalOpen, isNight, onClose }: GameModalProps) {
                 color: isNight ? "#eceff1" : "#3e2723",
               }}
             >
+              <strong>CodeLens</strong>
+              <p>
+                Clones a public Git repository, runs multi-step LLM-powered
+                analysis, and surfaces architecture-oriented results—summary,
+                frameworks, patterns, insights, and a structured view of
+                services and code paths with optional source browsing.
+              </p>
+              <a
+                href="https://github.com/quinncharity/codelens"
+                target="_blank"
+                rel="noreferrer noopener"
+                style={{
+                  display: "inline-block",
+                  marginTop: "4px",
+                  color: isNight ? "#ffcc80" : "#3e2723",
+                  textDecoration: "underline",
+                  fontSize: "0.95rem",
+                }}
+              >
+                View source on GitHub
+              </a>
+            </div>
+            <div
+              style={{
+                background: isNight ? "#37474f" : "#fff",
+                padding: "10px",
+                border: `2px dashed ${isNight ? "#cfd8dc" : "#3e2723"}`,
+                color: isNight ? "#eceff1" : "#3e2723",
+              }}
+            >
               <strong>Policy-Aware LLM Workflow Orchestrator</strong>
               <p>
                 A lightweight orchestration engine that routes user requests
